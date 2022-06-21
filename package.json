@@ -1,0 +1,29 @@
+{
+  "name": "naja-api",
+  "version": "1.0.0",
+  "description": "Banco de Dados em REST API(Teste)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "node",
+    "rest",
+    "api",
+    "database"
+  ],
+  "author": "Bruno Santos de Oliveira",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "mysql": "github:felixge/node-mysql",
+    "node-mysql": "^0.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

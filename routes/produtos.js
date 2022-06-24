@@ -52,7 +52,7 @@ router.post("/", (req, res, next) => {
             }
         )
     });
-
+    
 // RETORNA OS DADOS DE UM PRODUTO ESPECÍFICO
 router.get("/:id_produto", (req, res, next) => {
     mysql.query(

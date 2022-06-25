@@ -11,7 +11,7 @@ router.get("/", (req, res, next) =>{
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error })}
             const response = {
-                nome: result.length,
+                quantidade: result.length,
                 categorias: result.map(categoria => {
                     return {
                         id_categoria: categoria.id_categoria,
@@ -53,34 +53,85 @@ router.post('/', (req, res, next) =>{
     )
 });
 
-// RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICO
+// RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
 router.get('/:id_categoria', (req, res, next) =>{
-    const id = req.params.id_categoria
-
-    if (id === 'exclusivo') {
-    res.status(200).send({
-        mensagem: 'Detalhes dessa categoria',
-        id: id_categoria
-    });
-} else {
-        res.status(200).send({
-        mensagem:'ID da categoria:'
-        });
-    }
+    mysql.query(
+        "SELECT * from categorias where id_categoria = ?;",
+        [req.params.id_categoria],
+        (error, result, fields) => {
+            if (error) {return res.status(500).send({ error: error });
+        }
+            if (result.length == 0) {
+                return res.status(404).send({
+                    mensagem: 'Não foi encontrado a categoria com esse ID'
+                })
+            }
+            const response = {
+                categoria: {
+                    id_categoria: result[0].id_categoria,
+                    nome: result[0].nome,
+                    request: {
+                        tipo: 'GET',
+                        descricao: 'Retorna todas as categorias',
+                        url: 'http://localhost:3000/categorias'
+                    }
+                }
+            }
+            return res.status(200).send(response);
+        }
+    )
 });
 
 // ALTERA UMA CATEGORIA
 router.patch('/', (req, res, next) =>{
-    res.status(201).send({
-        mensagem: 'Categoria Alterada'
-    });
+    mysql.query(
+        `UPDATE categorias
+            SET nome = ?
+    where id_categoria = ?`,
+        [ 
+        req.body.nome,
+        req.body.id_categoria
+        ],
+        (error, result, fields) => {
+            if (error) {return res.status(500).send( {error: error, response: null });
+            }
+            res.status(202).send({
+                mensagem: 'Categoria alterada com sucesso :)',
+                categoriaAtualizado: {
+                    id_categoria: req.body.id_categoria,
+                    nome: req.body.nome,
+                    request: {
+                        tipo: 'GET',
+                        descricao: 'Retorna todas as categorias',
+                        url: 'http://localhost:3000/categorias' + req.body.id_categoria
+                    }
+                }
+            });
+        }
+    )
 });
 
 // EXCLUI UMA CATEGORIA
 router.delete('/', (req, res, next) =>{
-    res.status(201).send({
-        mensagem: 'Categoria Excluída'
-    });
+    mysql.query(
+        `DELETE from categorias where id_categoria = ?`,[req.body.id_categoria],
+        (error,result,fields) => {
+            if (error) {return res.status(500).send({ error: error, response: null })}
+            const response = {
+                mensagem: 'Categoria removida com sucesso!',
+                request: {
+                    tipo: 'POST',
+                    descricao: 'Insere uma categoria',
+                    url: 'http://localhost:3000/categorias',
+                    body: {
+                        id_categoria: 'Number',
+                        nome: 'String'
+                    }
+                } 
+            }
+            return res.status(202).send(response);
+        }
+    )
 });
 
 module.exports = router;

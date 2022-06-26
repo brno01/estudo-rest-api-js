@@ -8,8 +8,5 @@
     <img align="center" alt="Bruno-Nodejs" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-plain.svg">
     <img align="center" alt="Bruno-mySQL" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg">
 </div><div>
-</div>
 <p>
-<p>
-===========================================================================================<p>
 </div>

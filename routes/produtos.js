@@ -58,7 +58,7 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UM PRODUTO
-router.post('/', upload.single('produto_image'), (req, res, next) => {
+router.post('/', upload.single('produto_imagem'), (req, res, next) => {
         console.log(req.file);
         mysql.query(
             'INSERT INTO produtos (id_produto, id_categoria, nome, valor, image_produto) VALUES (?,?,?,?,?)',

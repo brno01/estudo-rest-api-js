@@ -44,6 +44,7 @@ router.get('/', (req, res, next) => {
                             nome: prod.nome,
                             valor: prod.valor,
                             id_categoria: prod.id_categoria,
+                            image_produto: req.file.path,
                             request: {
                                 tipo: 'GET',
                                 descricao: 'Retorna os detalhes de um produto específico:',

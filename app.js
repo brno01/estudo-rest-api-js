@@ -10,6 +10,7 @@ const rotaUsuários = require('./routes/usuarios')
 const res = require('express/lib/response');
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false })); // BodyParser Apenas JSON de entrada no Body
 app.use(bodyParser.json()); // BodyParser Apenas JSON de entrada no Body
 

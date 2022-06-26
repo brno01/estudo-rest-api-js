@@ -33,13 +33,16 @@ router.get('/', (req, res, next) =>{
 router.post('/', (req, res, next) =>{
     mysql.query(
         'INSERT INTO categorias (id_categoria, nome) VALUES (?,?)',
-        [req.body.id_categoria, req.body.nome],
+        [
+            req.body.id_categoria, 
+            req.body.nome
+        ],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error, response: null });
             }
             res.status(201).send({
                 mensagem: 'Categoria criada com sucesso! :)',
-                categoriaCriado: {
+                categoriaCriada: {
                     id_categoria: result.id_categoria,
                     nome: req.body.nome,
                     request: {
@@ -86,18 +89,18 @@ router.get('/:id_categoria', (req, res, next) =>{
 router.patch('/', (req, res, next) =>{
     mysql.query(
         `UPDATE categorias
-            SET nome = ?
+              SET nome = ?
     where id_categoria = ?`,
         [ 
-        req.body.nome,
-        req.body.id_categoria
+            req.body.nome,
+            req.body.id_categoria
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error: error, response: null });
             }
             res.status(202).send({
                 mensagem: 'Categoria alterada com sucesso :)',
-                categoriaAtualizado: {
+                categoriaAtualizada: {
                     id_categoria: req.body.id_categoria,
                     nome: req.body.nome,
                     request: {

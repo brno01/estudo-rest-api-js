@@ -44,7 +44,7 @@ router.get('/', (req, res, next) => {
                             nome: prod.nome,
                             valor: prod.valor,
                             id_categoria: prod.id_categoria,
-                            image_produto: req.file.path,
+                            imagem_produto: prod.imagem_produto,
                             request: {
                                 tipo: 'GET',
                                 descricao: 'Retorna os detalhes de um produto específico:',
@@ -62,7 +62,7 @@ router.get('/', (req, res, next) => {
 router.post('/', upload.single('produto_imagem'), (req, res, next) => {
         console.log(req.file);
         mysql.query(
-            'INSERT INTO produtos (id_produto, id_categoria, nome, valor, image_produto) VALUES (?,?,?,?,?)',
+            'INSERT INTO produtos (id_produto, id_categoria, nome, valor, imagem_produto) VALUES (?,?,?,?,?)',
             [
                 req.body.id_produto, 
                 req.body.id_categoria, 
@@ -80,7 +80,7 @@ router.post('/', upload.single('produto_imagem'), (req, res, next) => {
                         nome: req.body.nome,
                         valor: req.body.valor,
                         id_categoria: result.id_categoria,
-                        image_produto: req.file.path,
+                        imagem_produto: req.file.path,
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna todos os produtos:',
@@ -111,6 +111,7 @@ router.get('/:id_produto', (req, res, next) => {
                     nome: result[0].nome,
                     valor: result[0].valor,
                     id_categoria: result[0].id_categoria,
+                    imagem_produto: result[0].imagem_produto,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os produtos:',
@@ -127,14 +128,15 @@ router.get('/:id_produto', (req, res, next) => {
 router.patch('/', (req, res, next) => {
     mysql.query(
         `UPDATE produtos
-            SET nome = ?,
-               valor = ?
-    where id_produto = ?`,
-        [ 
-        req.body.nome,
-        req.body.valor,
-        req.body.id_produto,
-        req.body.id_categoria
+                SET nome = ?
+                   valor = ?
+            id_categoria = ?
+        where id_produto = ?`,
+        [
+            req.body.nome, 
+            req.body.valor, 
+            req.body.id_categoria,
+            req.body.id_produto
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error: error, response: null });
@@ -160,8 +162,7 @@ router.patch('/', (req, res, next) => {
 // EXCLUI UM PRODUTO
 router.delete('/', (req, res, next) =>{
     mysql.query(
-        'DELETE from produtos where id_produto = ?',
-        [req.body.id_produto],
+        'DELETE from produtos where id_produto = ?',[req.body.id_produto],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {

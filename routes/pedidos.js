@@ -5,9 +5,16 @@ const mysql = require('../database/mysql').pool;
 
 
 // RETORNA TODOS OS PEDIDOS // ID, Nome, NB: Number, Numeração de Base, Categoria(WIP)
-router.get("/", (req, res, next) => {
-    mysql.query(
-        'SELECT * from pedidos;',
+router.get('/', (req, res, next) => {
+    mysql.query(`SELECT pedidos.id_pedido,
+                        pedidos.quantidade,
+                        produtos.id_produto,
+                        produtos.nome,
+                        produtos.valor,
+                        produtos.id_categoria
+                    FROM pedidos
+                INNER JOIN produtos
+                        ON produtos.id_produto = pedidos.id_produto;`,
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error })}
             const response = {
@@ -15,11 +22,15 @@ router.get("/", (req, res, next) => {
                 pedidos: result.map(pedido => {
                     return {
                         id_pedido: pedido.id_pedido,
-                        id_produto: pedido.id_produto,
                         quantidade: pedido.quantidade,
+                        produto: {
+                            id_produto: pedido.id_produto,
+                            nome: pedido.nome,
+                            valor: pedido.valor
+                        },                        
                         request: {
                             tipo: 'GET',
-                            descricao: 'Retorna os detalhes de um pedido específico',
+                            descricao: 'Retorna os detalhes de um pedido específico:',
                             url: 'http://localhost:3000/pedidos/' + pedido.id_pedido
                         }
                     }
@@ -33,7 +44,7 @@ router.get("/", (req, res, next) => {
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) =>{
     mysql.query(
-        'INSERT INTO pedidos (id_produto, quantidade) VALUES (?,?)',
+        'INSERT INTO pedidos (id_produto, quantidade,) VALUES (?,?)',
         [req.body.id_produto, req.body.quantidade],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error, response: null });
@@ -45,7 +56,7 @@ router.post('/', (req, res, next) =>{
                     quantidade: req.body.quantidade,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todos os pedidos',
+                        descricao: 'Retorna todos os pedidos:',
                         url: 'http://localhost:3000/pedidos'
                     }
                 }
@@ -57,7 +68,7 @@ router.post('/', (req, res, next) =>{
 // RETORNA OS DADOS DE UM PEDIDO
 router.get('/:id_pedido', (req, res, next) =>{
     mysql.query(
-        "SELECT * from pedidos where id_pedido = ?;",
+        'SELECT * from pedidos where id_pedido = ?;',
         [req.params.id_pedido],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error });
@@ -74,7 +85,7 @@ router.get('/:id_pedido', (req, res, next) =>{
                     quantidade: result[0].quantidade,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todos os pedidos',
+                        descricao: 'Retorna todos os pedidos:',
                         url: 'http://localhost:3000/pedidos'
                     }
                 }
@@ -94,12 +105,8 @@ router.delete('/', (req, res, next) =>{
                 mensagem: 'Pedido removido com sucesso!',
                 request: {
                     tipo: 'POST',
-                    descricao: 'Insere um pedido',
+                    descricao: 'Insere um pedido:',
                     url: 'http://localhost:3000/pedidos',
-                    body: {
-                        id_pedido: 'Number',
-                        quantidade: 'Number'
-                    }
                 } 
             }
             return res.status(202).send(response);

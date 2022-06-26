@@ -5,7 +5,7 @@ const mysql = require('../database/mysql').pool;
 
 
 // RETORNA TODAS AS CATEGORIAS
-router.get("/", (req, res, next) =>{
+router.get('/', (req, res, next) =>{
     mysql.query(
         'SELECT * from categorias;',
         (error, result, fields) => {
@@ -18,7 +18,7 @@ router.get("/", (req, res, next) =>{
                         nome: categoria.nome,
                         request: {
                             tipo: 'GET',
-                            descricao: 'Retorna os detalhes de uma categoria específica',
+                            descricao: 'Retorna os detalhes de uma categoria específica:',
                             url: 'http://localhost:3000/categorias/' + categoria.id_categoria
                         }
                     }
@@ -32,7 +32,7 @@ router.get("/", (req, res, next) =>{
 // INSERE UMA CATEGORIA
 router.post('/', (req, res, next) =>{
     mysql.query(
-        "INSERT INTO categorias (id_categoria, nome) VALUES (?,?)",
+        'INSERT INTO categorias (id_categoria, nome) VALUES (?,?)',
         [req.body.id_categoria, req.body.nome],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error, response: null });
@@ -44,7 +44,7 @@ router.post('/', (req, res, next) =>{
                     nome: req.body.nome,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todas as categorias',
+                        descricao: 'Retorna todas as categorias:',
                         url: 'http://localhost:3000/produtos'
                     }
                 }
@@ -56,14 +56,14 @@ router.post('/', (req, res, next) =>{
 // RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
 router.get('/:id_categoria', (req, res, next) =>{
     mysql.query(
-        "SELECT * from categorias where id_categoria = ?;",
+        'SELECT * from categorias where id_categoria = ?;',
         [req.params.id_categoria],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
-                    mensagem: 'Não foi encontrado a categoria com esse ID'
+                    mensagem: 'Não foi encontrado a categoria com esse ID :('
                 })
             }
             const response = {
@@ -72,7 +72,7 @@ router.get('/:id_categoria', (req, res, next) =>{
                     nome: result[0].nome,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todas as categorias',
+                        descricao: 'Retorna todas as categorias:',
                         url: 'http://localhost:3000/categorias'
                     }
                 }
@@ -102,7 +102,7 @@ router.patch('/', (req, res, next) =>{
                     nome: req.body.nome,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todas as categorias',
+                        descricao: 'Retorna todas as categorias:',
                         url: 'http://localhost:3000/categorias' + req.body.id_categoria
                     }
                 }
@@ -121,12 +121,8 @@ router.delete('/', (req, res, next) =>{
                 mensagem: 'Categoria removida com sucesso!',
                 request: {
                     tipo: 'POST',
-                    descricao: 'Insere uma categoria',
+                    descricao: 'Insere uma categoria:',
                     url: 'http://localhost:3000/categorias',
-                    body: {
-                        id_categoria: 'Number',
-                        nome: 'String'
-                    }
                 } 
             }
             return res.status(202).send(response);

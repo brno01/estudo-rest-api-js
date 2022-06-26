@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "localhost",
+            "database": "naja-db",
+            "username": "root",
+            "connectionTimeout": 1000,
+            "password": ""
+        }
+    ],
+    "explorer.compactFolders": true,
+    "explorer.openEditors.visible": 9
+}

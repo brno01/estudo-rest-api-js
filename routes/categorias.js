@@ -88,9 +88,7 @@ router.get('/:id_categoria', (req, res, next) =>{
 // ALTERA UMA CATEGORIA
 router.patch('/', (req, res, next) =>{
     mysql.query(
-        `UPDATE categorias
-              SET nome = ?
-    where id_categoria = ?`,
+        "UPDATE categorias SET nome = ? WHERE id_categoria = '?' ",
         [ 
             req.body.nome,
             req.body.id_categoria

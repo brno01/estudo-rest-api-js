@@ -76,10 +76,10 @@ router.post('/', upload.single('produto_imagem'), (req, res, next) => {
                 res.status(201).send({
                     mensagem: 'Produto Inserido com sucesso :)',
                     produtoCriado: {
-                        id_produto: result.id_produto,
+                        id_produto: req.body.id_produto,
                         nome: req.body.nome,
                         valor: req.body.valor,
-                        id_categoria: result.id_categoria,
+                        id_categoria: req.body.id_categoria,
                         imagem_produto: req.file.path,
                         request: {
                             tipo: 'GET',
@@ -125,13 +125,9 @@ router.get('/:id_produto', (req, res, next) => {
 });
 
 // ALTERA UM PRODUTO
-router.patch('/', (req, res, next) => {
+router.put('/', (req, res, next) => {
     mysql.query(
-        `UPDATE produtos
-                SET nome = ?
-                   valor = ?
-            id_categoria = ?
-        where id_produto = ?`,
+        "UPDATE produtos SET nome = ?, valor = ?, id_categoria = ? WHERE id_produto = '?' ",
         [
             req.body.nome, 
             req.body.valor, 

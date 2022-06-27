@@ -104,20 +104,16 @@ mysql.query(
 });
 
 // ALTERA UM USUÁRIO
-router.patch('/', (req, res, next) => {
+router.put('/', (req, res, next) => {
     mysql.query(
-        `UPDATE usuarios
-            SET nome = ?
-    where id_usuario = ?`,
-    [ 
-        req.body.id_usuario, 
-        req.body.nome,
-        req.body.login,
+    "UPDATE usuarios SET nome = ?, login = ?, senha = ?, data_nascimento =?, sexo = ?, email = ?, telefone = ?  WHERE id_usuario = '?' ",
+    [
+        req.body.nome, req.body.login,
         req.body.senha,
         req.body.data_nascimento,
-        req.body.sexo,
-        req.body.email,
-        req.body.telefone
+        req.body.sexo, req.body.email,
+        req.body.telefone,
+        req.body.id_usuario
     ],
     (error, result, fields) => {
         if (error) {return res.status(500).send( {error: error, response: null });
@@ -127,12 +123,6 @@ router.patch('/', (req, res, next) => {
             usuarioAtualizado: {
                 id_usuario: req.body.id_usuario,
                 nome: req.body.nome,
-                login: req.body.login,
-                senha: req.body.senha,
-                data_nascimento: req.body.data_nascimento,
-                sexo: req.body.sexo,
-                email: req.body.email,
-                telefone: req.body.telefone,
                 request: {
                     tipo: 'GET',
                     descricao: 'Retorna todos os dados deste usuario:',

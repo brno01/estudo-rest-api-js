@@ -7,6 +7,7 @@ const mysql = require('../database/mysql').pool;
 // RETORNA TODOS OS PEDIDOS // ID, Nome, NB: Number, Numeração de Base, Categoria(WIP)
 router.get('/', (req, res, next) => {
     mysql.query(`SELECT pedidos.id_pedido,
+                        pedidos.id_usuario,
                         pedidos.quantidade,
                         produtos.id_produto,
                         produtos.nome,
@@ -44,8 +45,12 @@ router.get('/', (req, res, next) => {
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) =>{
     mysql.query(
-        'INSERT INTO pedidos (id_produto, quantidade,) VALUES (?,?)',
-        [req.body.id_produto, req.body.quantidade],
+        'INSERT INTO pedidos (id_usuario, id_produto, quantidade) VALUES (?,?,?)',
+        [
+            req.body.id_usuario, 
+            req.body.id_produto, 
+            req.body.quantidade
+        ],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error, response: null });
             }

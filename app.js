@@ -3,10 +3,10 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const rotaProdutos = require('./routes/produtos');
-const rotaPedidos = require('./routes/pedidos');
-const rotaCategorias = require('./routes/categorias');
-const rotaUsuários = require('./routes/usuarios')
+const routeProducts = require('./routes/products');
+const routeRequests = require('./routes/requests');
+const routeCategories = require('./routes/categories');
+const routeClients = require('./routes/clients');
 const res = require('express/lib/response');
 
 app.use(morgan('dev'));
@@ -28,23 +28,23 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/produtos', rotaProdutos);
-app.use('/pedidos', rotaPedidos);
-app.use('/categorias', rotaCategorias);
-app.use('/usuarios', rotaUsuários)
+app.use('/products', routeProducts);
+app.use('/requests', routeRequests);
+app.use('/categories', routeCategories);
+app.use('/clients', routeClients);
 
-// Quando não encontrar a rota. Retorna:
+// Quando não encontrar a route. Retorna:
 app.use((req, res, next) =>{
-    const erro = new Error('Não encontrado :(');
-    erro.status = 404;
-    next(erro);
+    const error = new Error('Não encontrado :(');
+    error.status = 404;
+    next(error);
 });
 
 app.use((error, req, res, next) =>{
     res.status(error.status || 500);
     return res.send({
-        erro: {
-            mensagem: error.message
+        error: {
+            message: error.message
         }
     });
 });

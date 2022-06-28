@@ -4,20 +4,20 @@ const mysql = require('../database/mysql').pool;
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
+    destination: function (req, file, callback) {
+        callback(null, './uploads/');
     },
-    filename: function(req, file, cb) {
+    filename: function(req, file, callback) {
         let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        cb(null, data + file.originalname );
+        callback(null, data + file.originalname );
     }
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req, file, callback) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
+        callback(null, true);
     } else {
-        cb(null, false);
+        callback(null, false);
     }
 }
 
@@ -30,25 +30,26 @@ const upload = multer({
 });
 
 
-// RETORNA TODOS OS PRODUTOS // Valor: FLOAT
+// RETORNA TODOS OS productS // Valor: FLOAT
 router.get('/', (req, res, next) => {
+        console.log(req.file);
         mysql.query(
-            'SELECT * from produtos;',
+            'SELECT * from products;',
             (error, result, fields) => {
                 if (error) {return res.status(500).send({ error: error })}
                 const response = {
-                    quantidade: result.length,
-                    produtos: result.map(prod => {
+                    quantity: result.length,
+                    products: result.map(prod => {
                         return {
-                            id_produto: prod.id_produto,
-                            nome: prod.nome,
+                            id_product: prod.id_product,
+                            name: prod.name,
                             valor: prod.valor,
-                            id_categoria: prod.id_categoria,
-                            imagem_produto: prod.imagem_produto,
+                            id_categorie: prod.id_categorie,
+                            image_product: prod.image_product,
                             request: {
                                 tipo: 'GET',
-                                descricao: 'Retorna os detalhes de um produto específico:',
-                                url: 'http://localhost:3000/produtos/' + prod.id_produto 
+                                descricao: 'Retorna os detalhes de um product específico:',
+                                url: 'http://localhost:3000/products/' + prod.id_product
                             }
                         }
                     })
@@ -59,14 +60,14 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UM PRODUTO
-router.post('/', upload.single('produto_imagem'), (req, res, next) => {
+router.post('/', upload.single('product_image'), (req, res, next) => {
         console.log(req.file);
         mysql.query(
-            'INSERT INTO produtos (id_produto, id_categoria, nome, valor, imagem_produto) VALUES (?,?,?,?,?)',
+            'INSERT INTO products (id_product, id_categorie, name, valor, image_product) VALUES (?,?,?,?,?)',
             [
-                req.body.id_produto, 
-                req.body.id_categoria, 
-                req.body.nome, 
+                req.body.id_product, 
+                req.body.id_categorie, 
+                req.body.name, 
                 req.body.valor,
                 req.file.path
             ],
@@ -74,17 +75,17 @@ router.post('/', upload.single('produto_imagem'), (req, res, next) => {
                 if (error) {return res.status(500).send({ error: error, response: null });
                 }
                 res.status(201).send({
-                    mensagem: 'Produto Inserido com sucesso :)',
-                    produtoCriado: {
-                        id_produto: req.body.id_produto,
-                        nome: req.body.nome,
+                    message: 'Produto Inserido com sucesso :)',
+                    productCriado: {
+                        id_product: req.body.id_product,
+                        name: req.body.name,
                         valor: req.body.valor,
-                        id_categoria: req.body.id_categoria,
-                        imagem_produto: req.file.path,
+                        id_categorie: req.body.id_categorie,
+                        image_product: req.file.path,
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna todos os produtos:',
-                            url: 'http://localhost:3000/produtos'
+                            url: 'http://localhost:3000/products'
                         }
                     }
                 });
@@ -93,29 +94,29 @@ router.post('/', upload.single('produto_imagem'), (req, res, next) => {
     });
     
 // RETORNA OS DADOS DE UM PRODUTO ESPECÍFICO
-router.get('/:id_produto', (req, res, next) => {
+router.get('/:id_product', (req, res, next) => {
     mysql.query(
-        'SELECT * from produtos where id_produto = ?;',
-        [req.params.id_produto],
+        'SELECT * from products WHERE id_product = ?;',
+        [req.params.id_product],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
-                    mensagem: 'Não foi encontrado o produto com esse ID'
+                    message: 'Não foi encontrado o produto com esse ID'
                 })
             }
             const response = {
-                produto: {
-                    id_produto: result[0].id_produto,
-                    nome: result[0].nome,
+                product: {
+                    id_product: result[0].id_product,
+                    name: result[0].name,
                     valor: result[0].valor,
-                    id_categoria: result[0].id_categoria,
-                    imagem_produto: result[0].imagem_produto,
+                    id_categorie: result[0].id_categorie,
+                    image_product: result[0].image_product,
                     request: {
                         tipo: 'GET',
-                        descricao: 'Retorna todos os produtos:',
-                        url: 'http://localhost:3000/produtos'
+                        descricao: 'Retorna todos os products:',
+                        url: 'http://localhost:3000/products'
                     }
                 }
             }
@@ -125,29 +126,29 @@ router.get('/:id_produto', (req, res, next) => {
 });
 
 // ALTERA UM PRODUTO
-router.put('/', (req, res, next) => {
+router.patch('/', (req, res, next) => {
     mysql.query(
-        "UPDATE produtos SET nome = ?, valor = ?, id_categoria = ? WHERE id_produto = '?' ",
+        "UPDATE products SET name = ?, valor = ?, id_categorie = ? WHERE id_product = '?' ",
         [
-            req.body.nome, 
+            req.body.name, 
             req.body.valor, 
-            req.body.id_categoria,
-            req.body.id_produto
+            req.body.id_categorie,
+            req.body.id_product
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error: error, response: null });
             }
             res.status(202).send({
-                mensagem: 'Produto alterado com sucesso :)',
-                produtoAtualizado: {
-                    id_produto: req.body.id_produto,
-                    nome: req.body.nome,
+                message: 'Produto alterado com sucesso :)',
+                productAtualizado: {
+                    id_product: req.body.id_product,
+                    name: req.body.name,
                     valor: req.body.valor,
-                    id_categoria: req.body.id_categoria,
+                    id_categorie: req.body.id_categorie,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os produtos:',
-                        url: 'http://localhost:3000/produtos' + req.body.id_produto
+                        url: 'http://localhost:3000/products' + req.body.id_product
                     }
                 }
             });
@@ -158,15 +159,15 @@ router.put('/', (req, res, next) => {
 // EXCLUI UM PRODUTO
 router.delete('/', (req, res, next) =>{
     mysql.query(
-        'DELETE from produtos where id_produto = ?',[req.body.id_produto],
+        'DELETE from products WHERE id_product = ?',[req.body.id_product],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {
-                mensagem: 'Produto removido com sucesso!',
+                message: 'Produto removido com sucesso!',
                 request: {
                     tipo: 'POST',
-                    descricao: 'Insere um produto:',
-                    url: 'http://localhost:3000/produtos',
+                    descripton: 'Insere um produto:',
+                    url: 'http://localhost:3000/products',
                 } 
             }
             return res.status(202).send(response);
@@ -175,4 +176,4 @@ router.delete('/', (req, res, next) =>{
 
 });
 
-module.exports = router;    
+module.exports = router;

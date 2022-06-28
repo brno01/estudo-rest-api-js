@@ -7,19 +7,19 @@ const mysql = require('../database/mysql').pool;
 // RETORNA TODAS AS CATEGORIAS
 router.get('/', (req, res, next) =>{
     mysql.query(
-        'SELECT * from categorias;',
+        'SELECT * from categories;',
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error })}
             const response = {
-                quantidade: result.length,
-                categorias: result.map(categoria => {
+                quantity: result.length,
+                categories: result.map(categorie => {
                     return {
-                        id_categoria: categoria.id_categoria,
-                        nome: categoria.nome,
+                        id_categorie: categorie.id_categorie,
+                        name: categorie.name,
                         request: {
-                            tipo: 'GET',
-                            descricao: 'Retorna os detalhes de uma categoria específica:',
-                            url: 'http://localhost:3000/categorias/' + categoria.id_categoria
+                            type: 'GET',
+                            description: 'Retorna os detalhes de uma categoria específica:',
+                            url: 'http://localhost:3000/categories/' + categorie.id_categorie
                         }
                     }
                 })
@@ -32,22 +32,22 @@ router.get('/', (req, res, next) =>{
 // INSERE UMA CATEGORIA
 router.post('/', (req, res, next) =>{
     mysql.query(
-        'INSERT INTO categorias (id_categoria, nome) VALUES (?,?)',
+        'INSERT INTO categories (id_categorie, name) VALUES (?,?)',
         [
-            req.body.id_categoria, 
-            req.body.nome
+            req.body.id_categorie, 
+            req.body.name
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error, response: null });
             }
             res.status(201).send({
-                mensagem: 'Categoria criada com sucesso! :)',
-                categoriaCriada: {
-                    id_categoria: result.id_categoria,
-                    nome: req.body.nome,
+                message: 'Categoria criada com sucesso! :)',
+                categorieCreated: {
+                    id_categorie: result.id_categorie,
+                    name: req.body.name,
                     request: {
-                        tipo: 'GET',
-                        descricao: 'Retorna todas as categorias:',
+                        type: 'GET',
+                        description: 'Retorna todas as categorias:',
                         url: 'http://localhost:3000/produtos'
                     }
                 }
@@ -57,26 +57,26 @@ router.post('/', (req, res, next) =>{
 });
 
 // RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
-router.get('/:id_categoria', (req, res, next) =>{
+router.get('/:id_categorie', (req, res, next) =>{
     mysql.query(
-        'SELECT * from categorias where id_categoria = ?;',
-        [req.params.id_categoria],
+        'SELECT * from categories where id_categorie = ?;',
+        [req.params.id_categorie],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error: error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
-                    mensagem: 'Não foi encontrado a categoria com esse ID :('
+                    message: 'Não foi encontrado a categoria com esse ID :('
                 })
             }
             const response = {
-                categoria: {
-                    id_categoria: result[0].id_categoria,
-                    nome: result[0].nome,
+                categorie: {
+                    id_categorie: result[0].id_categorie,
+                    name: result[0].name,
                     request: {
-                        tipo: 'GET',
-                        descricao: 'Retorna todas as categorias:',
-                        url: 'http://localhost:3000/categorias'
+                        type: 'GET',
+                        description: 'Retorna todas as categorias:',
+                        url: 'http://localhost:3000/categories'
                     }
                 }
             }
@@ -88,23 +88,23 @@ router.get('/:id_categoria', (req, res, next) =>{
 // ALTERA UMA CATEGORIA
 router.patch('/', (req, res, next) =>{
     mysql.query(
-        "UPDATE categorias SET nome = ? WHERE id_categoria = '?' ",
+        "UPDATE categories SET name = ? WHERE id_categorie = '?' ",
         [ 
-            req.body.nome,
-            req.body.id_categoria
+            req.body.name,
+            req.body.id_categorie
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error: error, response: null });
             }
             res.status(202).send({
-                mensagem: 'Categoria alterada com sucesso :)',
-                categoriaAtualizada: {
-                    id_categoria: req.body.id_categoria,
-                    nome: req.body.nome,
+                message: 'Categoria alterada com sucesso :)',
+                categorieUpdated: {
+                    id_categorie: req.body.id_categorie,
+                    name: req.body.name,
                     request: {
-                        tipo: 'GET',
-                        descricao: 'Retorna todas as categorias:',
-                        url: 'http://localhost:3000/categorias' + req.body.id_categoria
+                        type: 'GET',
+                        description: 'Retorna todas as categorias:',
+                        url: 'http://localhost:3000/categories' + req.body.id_categorie
                     }
                 }
             });
@@ -115,15 +115,15 @@ router.patch('/', (req, res, next) =>{
 // EXCLUI UMA CATEGORIA
 router.delete('/', (req, res, next) =>{
     mysql.query(
-        `DELETE from categorias where id_categoria = ?`,[req.body.id_categoria],
+        `DELETE from categories WHERE id_categorie = ?`,[req.body.id_categorie],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {
-                mensagem: 'Categoria removida com sucesso!',
+                message: 'Categoria removida com sucesso!',
                 request: {
-                    tipo: 'POST',
-                    descricao: 'Insere uma categoria:',
-                    url: 'http://localhost:3000/categorias',
+                    type: 'POST',
+                    description: 'Insere uma categorie:',
+                    url: 'http://localhost:3000/categories',
                 } 
             }
             return res.status(202).send(response);

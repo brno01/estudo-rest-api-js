@@ -4,7 +4,6 @@ const mysql = require('../database/mysql').pool;
 
 // RETORNA TODOS OS USUÁRIOS
 router.get('/', (req, res, next) => {
-    console.log()
     mysql.query(
         "SELECT * FROM clients;",
         (error, result, fields) => {
@@ -37,13 +36,12 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM USUÁRIO
 router.post('/', (req, res, next) => {
-    console.log()
     mysql.query(
-        'INSERT INTO clients (id_client, name, username, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
+        'INSERT INTO clients (id_client, name, login, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
         [
             req.body.id_client, 
             req.body.name,
-            req.body.username,
+            req.body.login,
             req.body.password,
             req.body.birthdate,
             req.body.gender,
@@ -58,7 +56,7 @@ router.post('/', (req, res, next) => {
                 clientCreated: {
                     id_client: result.id_client,
                     name: req.body.name,
-                    username: req.body.username,
+                    login: req.body.login,
                     password: req.body.password,
                     birthdate: req.body.birthdate,
                     gender: req.body.gender,
@@ -77,7 +75,6 @@ router.post('/', (req, res, next) => {
 
 // RETORNA OS DADOS DE UM CLIENTE ESPECÍFICO
 router.get('/:id_client', (req, res, next) => {
-    console.log()
     mysql.query(
         'SELECT * FROM clients WHERE id_client = ?;',
         [req.params.id_client],
@@ -93,7 +90,7 @@ router.get('/:id_client', (req, res, next) => {
                 client: {
                     id_client: result[0].id_client,
                     name: result[0].name,
-                    username: result[0].username,
+                    login: result[0].login,
                     password: result[0].password,
                     birthdate: result[0].birthdate,
                     gender: result[0].gender,
@@ -113,11 +110,10 @@ router.get('/:id_client', (req, res, next) => {
 
 // ALTERA UM CLIENTE
 router.patch('/', (req, res, next) => {
-    console.log()
     mysql.query(
-    "UPDATE clients SET name = ?, username = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
+    "UPDATE clients SET name = ?, login = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
     [
-        req.body.name, req.body.username,
+        req.body.name, req.body.login,
         req.body.password,
         req.body.birthdate,
         req.body.gender, req.body.email,
@@ -149,8 +145,7 @@ router.patch('/', (req, res, next) => {
 });
 
 // EXCLUI UM USUÁRIO
-router.delete('/', (req, res, next) =>{
-    console.log()
+router.delete('/', (req, res, next) => {
     mysql.query(
         "DELETE FROM client WHERE id_client = ?",[req.body.id_client],
         (error,result,fields) => {

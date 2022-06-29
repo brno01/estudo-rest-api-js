@@ -6,7 +6,6 @@ const mysql = require('../database/mysql').pool;
 
 // RETORNA TODOS OS PEDIDOS // ID, name, NB: Number, Numeração de Base, request(WIP)
 router.get('/', (req, res, next) => {
-    console.log()
     mysql.query(`SELECT requests.id_request,
                         requests.id_client,
                         requests.quantity,
@@ -49,12 +48,11 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UM PEDIDO
-router.post('/', (req, res, next) =>{
-    console.log()
+router.post('/', (req, res, next) => {
     mysql.query(
-        'INSERT INTO requests (id_user, id_product, quantity) VALUES (?,?,?)',
+        'INSERT INTO requests (id_client, id_product, quantity) VALUES (?,?,?)',
         [
-            req.body.id_user, 
+            req.body.id_client, 
             req.body.id_product, 
             req.body.quantity
         ],
@@ -78,8 +76,7 @@ router.post('/', (req, res, next) =>{
 });
 
 // RETORNA OS DADOS DE UM PEDIDO
-router.get('/:id_request', (req, res, next) =>{
-    console.log()
+router.get('/:id_request', (req, res, next) => {
     mysql.query(
         'SELECT * from requests where id_request = ?;',
         [req.params.id_request],
@@ -109,10 +106,9 @@ router.get('/:id_request', (req, res, next) =>{
 });
 
 // ALTERA UM PEDIDO
-router.patch('/', (req, res, next) =>{
-    console.log()
+router.patch('/', (req, res, next) => {
     mysql.query(
-        "UPDATE requests SET id_product = ?, quantity = ?, id_user = ? WHERE id_request = '?' ",
+        "UPDATE requests SET id_product = ?, quantity = ?, id_client = ? WHERE id_request = '?' ",
         [ 
             req.body.quantity,
             req.body.id_request
@@ -142,8 +138,7 @@ router.patch('/', (req, res, next) =>{
 });
 
 // EXCLUI UM PEDIDO
-router.delete('/', (req, res, next) =>{
-    console.log()
+router.delete('/', (req, res, next) => {
     mysql.query(
         `DELETE from requests where id_request = ?`,[req.body.id_request],
         (error,result,fields) => {

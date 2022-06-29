@@ -5,8 +5,7 @@ const mysql = require('../database/mysql').pool;
 
 
 // RETORNA TODAS AS CATEGORIAS
-router.get('/', (req, res, next) =>{
-    console.log()
+router.get('/', (req, res, next) => {
     mysql.query(
         'SELECT * FROM categories;',
         (error, result, fields) => {
@@ -37,7 +36,6 @@ router.get('/', (req, res, next) =>{
 
 // INSERE UMA CATEGORIA
 router.post('/', (req, res, next) => {
-    console.log()
     mysql.query(
         'INSERT INTO categories (id_categorie, name) VALUES (?,?)',
         [
@@ -64,8 +62,7 @@ router.post('/', (req, res, next) => {
 });
 
 // RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
-router.get('/:id_categorie', (req, res, next) =>{
-    console.log()
+router.get('/:id_categorie', (req, res, next) => {
     mysql.query(
         'SELECT * FROM categories WHERE id_categorie = ?;',
         [req.params.id_categorie],
@@ -94,8 +91,7 @@ router.get('/:id_categorie', (req, res, next) =>{
 });
 
 // ALTERA UMA CATEGORIA
-router.patch('/', (req, res, next) =>{
-    console.log()
+router.patch('/', (req, res, next) => {
     mysql.query(
         "UPDATE categories SET name = ? WHERE id_categorie = '?' ",
         [ 
@@ -137,8 +133,7 @@ router.patch('/', (req, res, next) =>{
 });
 
 // EXCLUI UMA CATEGORIA
-router.delete('/', (req, res, next) =>{
-    console.log()
+router.delete('/', (req, res, next) => {
     mysql.query(
         `DELETE from categories WHERE id_categorie = ?`,[req.body.id_categorie],
         (error,result,fields) => {

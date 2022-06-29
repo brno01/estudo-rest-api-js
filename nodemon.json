@@ -4,6 +4,8 @@
         "MYSQL_PASSWORD" : "",
         "MYSQL_DATABASE" : "naja-db",
         "MYSQL_HOST" : "localhost",
-        "MYSQL_PORT" : 3306
+        "MYSQL_PORT" : 3306,
+
+        "JWT_KEY" : "secret"
     }
 }

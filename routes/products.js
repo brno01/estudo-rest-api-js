@@ -31,15 +31,14 @@ const upload = multer({
 
 
 // RETORNA TODOS OS PRODUTOS // Price|Valor = FLOAT
-router.get('/', (req, res, next) => {
-        console.log();
+router.get('/', (req, res, next) => {;
         mysql.query(
             'SELECT * FROM products;',
             (error, result, fields) => {
                 if (error) {return res.status(500).send({ error : error })}
                 if (result.length == 0) {
                     return res.status(404).send({
-                        message: 'Não há produtos cadastrados :('
+                        message: 'Não há produtos cadastrados! :('
                     })
                 }
                 const response = {
@@ -65,8 +64,7 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UM PRODUTO
-router.post('/', upload.single('product_image'), (req, res, next) => {
-        console.log()
+router.post('/', upload.single('image_product'), (req, res, next) => {
         mysql.query(
             'INSERT INTO products (id_product, id_categorie, name, price, image_product) VALUES (?,?,?,?,?)',
             [
@@ -80,7 +78,7 @@ router.post('/', upload.single('product_image'), (req, res, next) => {
                 if (error) {return res.status(500).send({ error : error, response: null });
                 }
                 res.status(201).send({
-                    message: 'Produto Inserido com sucesso :)',
+                    message: 'Produto inserido com sucesso! :)',
                     productCriado: {
                         id_product: req.body.id_product,
                         name: req.body.name,

@@ -34,9 +34,14 @@ const upload = multer({
 router.get('/', (req, res, next) => {
         console.log();
         mysql.query(
-            'SELECT * from products;',
+            'SELECT * FROM products;',
             (error, result, fields) => {
                 if (error) {return res.status(500).send({ error : error })}
+                if (result.length == 0) {
+                    return res.status(404).send({
+                        message: 'Não há produtos cadastrados :('
+                    })
+                }
                 const response = {
                     quantity: result.length,
                     products: result.map(prod => {
@@ -96,7 +101,7 @@ router.post('/', upload.single('product_image'), (req, res, next) => {
 // RETORNA OS DADOS DE UM PRODUTO ESPECÍFICO
 router.get('/:id_product', (req, res, next) => {
     mysql.query(
-        'SELECT * from products WHERE id_product = ?;',
+        'SELECT * FROM products WHERE id_product = ?;',
         [req.params.id_product],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error });
@@ -159,7 +164,7 @@ router.patch('/', (req, res, next) => {
 // EXCLUI UM PRODUTO
 router.delete('/', (req, res, next) => {
     mysql.query(
-        'DELETE from products WHERE id_product = ?',[req.body.id_product],
+        'DELETE FROM products WHERE id_product = ?',[req.body.id_product],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error : error, response: null })}
             const response = {

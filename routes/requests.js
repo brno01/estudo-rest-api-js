@@ -19,6 +19,11 @@ router.get('/', (req, res, next) => {
                         ON products.id_product = requests.id_product;`,
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error })}
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não há pedidos feitos :('
+                })
+            }
             const response = {
                 quantity: result.length,
                 requests: result.map(request => {
@@ -114,6 +119,11 @@ router.patch('/', (req, res, next) =>{
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error : error, response: null });
+            }
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não foi encontrado um pedido com esse ID :('
+                })
             }
             res.status(202).send({
                 message: 'Pedido alterado com sucesso :)',

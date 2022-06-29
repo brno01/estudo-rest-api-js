@@ -8,9 +8,14 @@ const mysql = require('../database/mysql').pool;
 router.get('/', (req, res, next) =>{
     console.log()
     mysql.query(
-        'SELECT * from categories;',
+        'SELECT * FROM categories;',
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error })}
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não há categorias cadastradas :('
+                })
+            }
             const response = {
                 quantity: result.length,
                 categories: result.map(categorie => {
@@ -62,14 +67,14 @@ router.post('/', (req, res, next) => {
 router.get('/:id_categorie', (req, res, next) =>{
     console.log()
     mysql.query(
-        'SELECT * from categories where id_categorie = ?;',
+        'SELECT * FROM categories WHERE id_categorie = ?;',
         [req.params.id_categorie],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não foi encontrado a categoria com esse ID :('
+                    message: 'Não foi encontrado uma categoria com esse ID :('
                 })
             }
             const response = {
@@ -98,7 +103,23 @@ router.patch('/', (req, res, next) =>{
             req.body.id_categorie
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error : error, response: null });
+            if (error) {return res.status(500).send({ error : error });
+        }
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não foi encontrado uma categoria com esse ID :('
+                })
+            }
+            const response = {
+                categorie: {
+                    id_categorie: result[0].id_categorie,
+                    name: req.body.name,
+                    request: {
+                        type: 'GET',
+                        description: 'Retorna todas as categorias:',
+                        url: 'http://localhost:3000/categories'
+                    }
+                }
             }
             res.status(202).send({
                 message: 'Categoria alterada com sucesso :)',
@@ -112,8 +133,7 @@ router.patch('/', (req, res, next) =>{
                     }
                 }
             });
-        }
-    )
+        });
 });
 
 // EXCLUI UMA CATEGORIA

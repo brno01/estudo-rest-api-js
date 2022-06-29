@@ -9,6 +9,11 @@ router.get('/', (req, res, next) => {
         "SELECT * FROM clients;",
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error })}
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não há clientes cadastrados :('
+                })
+            }
             const response = {
                 quantity: result.length,
                 clients: result.map(client => {
@@ -34,11 +39,11 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
     console.log()
     mysql.query(
-        'INSERT INTO clients (id_client, name, login, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
+        'INSERT INTO clients (id_client, name, username, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
         [
             req.body.id_client, 
             req.body.name,
-            req.body.login,
+            req.body.username,
             req.body.password,
             req.body.birthdate,
             req.body.gender,
@@ -53,7 +58,7 @@ router.post('/', (req, res, next) => {
                 clientCreated: {
                     id_client: result.id_client,
                     name: req.body.name,
-                    login: req.body.login,
+                    username: req.body.username,
                     password: req.body.password,
                     birthdate: req.body.birthdate,
                     gender: req.body.gender,
@@ -70,25 +75,25 @@ router.post('/', (req, res, next) => {
     )
 });
 
-// RETORNA OS DADOS DE UM USUÁRIO ESPECÍFICO
+// RETORNA OS DADOS DE UM CLIENTE ESPECÍFICO
 router.get('/:id_client', (req, res, next) => {
     console.log()
     mysql.query(
-        'SELECT * from clients where id_client = ?;',
+        'SELECT * FROM clients WHERE id_client = ?;',
         [req.params.id_client],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não foi encontrado o usuário com esse ID :('
+                    message: 'Não foi encontrado um cliente com esse ID :('
                 })
             }
             const response = {
                 client: {
                     id_client: result[0].id_client,
                     name: result[0].name,
-                    login: result[0].login,
+                    username: result[0].username,
                     password: result[0].password,
                     birthdate: result[0].birthdate,
                     gender: result[0].gender,
@@ -106,13 +111,13 @@ router.get('/:id_client', (req, res, next) => {
     )
 });
 
-// ALTERA UM USUÁRIO
+// ALTERA UM CLIENTE
 router.patch('/', (req, res, next) => {
     console.log()
     mysql.query(
-    "UPDATE clients SET name = ?, login = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
+    "UPDATE clients SET name = ?, username = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
     [
-        req.body.name, req.body.login,
+        req.body.name, req.body.username,
         req.body.password,
         req.body.birthdate,
         req.body.gender, req.body.email,
@@ -121,6 +126,11 @@ router.patch('/', (req, res, next) => {
     ],
         (error, result, fields) => {
             if (error) {return res.status(500).send( {error : error, response: null });
+            }
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não foi encontrado um cliente com esse ID :('
+                })
             }
             res.status(202).send({
                 message: 'Usuário alterado com sucesso! :)',
@@ -142,7 +152,7 @@ router.patch('/', (req, res, next) => {
 router.delete('/', (req, res, next) =>{
     console.log()
     mysql.query(
-        "DELETE from client where id_client = ?",[req.body.id_client],
+        "DELETE FROM client WHERE id_client = ?",[req.body.id_client],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {

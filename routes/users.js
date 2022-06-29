@@ -11,7 +11,7 @@ router.post('/signup', (req, res, next) => {
             return res.status(500).send(err);
         }
         if (result.length > 0) {
-            return res.status(400).send({ error: 'Já possui um usuário com este E-mail.' });
+            return res.status(400).send({ error: 'Já possui um usuário com este e-mail.' });
         }
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             if (err) {

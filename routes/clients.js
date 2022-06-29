@@ -4,10 +4,11 @@ const mysql = require('../database/mysql').pool;
 
 // RETORNA TODOS OS USUÁRIOS
 router.get('/', (req, res, next) => {
+    console.log()
     mysql.query(
         'SELECT * from clients;',
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error })}
+            if (error) {return res.status(500).send({ error : error })}
             const response = {
                 quantity: result.length,
                 clients: result.map(client => {
@@ -31,6 +32,7 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM USUÁRIO
 router.post('/', (req, res, next) => {
+    console.log()
     mysql.query(
         'INSERT INTO clients (id_client, name, login, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
         [
@@ -44,7 +46,7 @@ router.post('/', (req, res, next) => {
             req.body.phone
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null });
+            if (error) {return res.status(500).send({ error : error, response: null });
             }
             res.status(201).send({
                 message: 'Usuário criado com sucesso! :)',
@@ -70,41 +72,43 @@ router.post('/', (req, res, next) => {
 
 // RETORNA OS DADOS DE UM USUÁRIO ESPECÍFICO
 router.get('/:id_client', (req, res, next) => {
-mysql.query(
-    'SELECT * from clients where id_client = ?;',
-    [req.params.id_client],
-    (error, result, fields) => {
-        if (error) {return res.status(500).send({ error: error });
-    }
-        if (result.length == 0) {
-            return res.status(404).send({
-                message: 'Não foi encontrado o usuário com esse ID :('
-            })
+    console.log()
+    mysql.query(
+        'SELECT * from clients where id_client = ?;',
+        [req.params.id_client],
+        (error, result, fields) => {
+            if (error) {return res.status(500).send({ error : error });
         }
-        const response = {
-            client: {
-                id_client: result[0].id_client,
-                name: result[0].name,
-                login: result[0].login,
-                password: result[0].password,
-                birthdate: result[0].birthdate,
-                gender: result[0].gender,
-                email: result[0].email,
-                phone: result[0].phone,
-                request: {
-                    type: 'GET',
-                    description: 'Retorna todos os usuários:',
-                    url: 'http://localhost:3000/clients'
+            if (result.length == 0) {
+                return res.status(404).send({
+                    message: 'Não foi encontrado o usuário com esse ID :('
+                })
+            }
+            const response = {
+                client: {
+                    id_client: result[0].id_client,
+                    name: result[0].name,
+                    login: result[0].login,
+                    password: result[0].password,
+                    birthdate: result[0].birthdate,
+                    gender: result[0].gender,
+                    email: result[0].email,
+                    phone: result[0].phone,
+                    request: {
+                        type: 'GET',
+                        description: 'Retorna todos os usuários:',
+                        url: 'http://localhost:3000/clients'
+                    }
                 }
             }
+            return res.status(200).send(response);
         }
-        return res.status(200).send(response);
-    }
-)
+    )
 });
 
 // ALTERA UM USUÁRIO
 router.patch('/', (req, res, next) => {
+    console.log()
     mysql.query(
     "UPDATE clients SET name = ?, login = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
     [
@@ -115,47 +119,47 @@ router.patch('/', (req, res, next) => {
         req.body.phone,
         req.body.id_client
     ],
-    (error, result, fields) => {
-        if (error) {return res.status(500).send( {error: error, response: null });
-        }
-        res.status(202).send({
-            message: 'Usuário alterado com sucesso! :)',
-            clientUpdated: {
-                id_client: req.body.id_client,
-                name: req.body.name,
-                request: {
-                    type: 'GET',
-                    description: 'Retorna todos os dados deste usuário:',
-                    url: 'http://localhost:3000/clients/' + req.body.id_client
-                }
+        (error, result, fields) => {
+            if (error) {return res.status(500).send( {error : error, response: null });
             }
-        });
-    }
-)
+            res.status(202).send({
+                message: 'Usuário alterado com sucesso! :)',
+                clientUpdated: {
+                    id_client: req.body.id_client,
+                    name: req.body.name,
+                    request: {
+                        type: 'GET',
+                        description: 'Retorna todos os dados deste usuário:',
+                        url: 'http://localhost:3000/clients/' + req.body.id_client
+                    }
+                }
+            });
+        }
+    )
 });
 
 // EXCLUI UM USUÁRIO
 router.delete('/', (req, res, next) =>{
-mysql.query(
-    `DELETE from client where id_client = ?`,[req.body.id_client],
-    (error,result,fields) => {
-        if (error) {return res.status(500).send({ error: error, response: null })}
-        const response = {
-            message: 'Usuário removido com sucesso!',
-            request: {
-                type: 'POST',
-                description: 'Insere um usuário:',
-                url: 'http://localhost:3000/client',
-                body: {
-                    name: 'String',
-                    id_client: 'Number'
-                }
-            } 
+    console.log()
+    mysql.query(
+        `DELETE from client where id_client = ?`,[req.body.id_client],
+        (error,result,fields) => {
+            if (error) {return res.status(500).send({ error: error, response: null })}
+            const response = {
+                message: 'Usuário removido com sucesso!',
+                request: {
+                    type: 'POST',
+                    description: 'Insere um usuário:',
+                    url: 'http://localhost:3000/client',
+                    body: {
+                        name: 'String',
+                        id_client: 'Number'
+                    }
+                } 
+            }
+            return res.status(202).send(response);
         }
-        return res.status(202).send(response);
-    }
-)
-
+    )
 });
 
 module.exports = router;

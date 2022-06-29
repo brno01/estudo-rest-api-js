@@ -6,10 +6,11 @@ const mysql = require('../database/mysql').pool;
 
 // RETORNA TODAS AS CATEGORIAS
 router.get('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         'SELECT * from categories;',
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error })}
+            if (error) {return res.status(500).send({ error : error })}
             const response = {
                 quantity: result.length,
                 categories: result.map(categorie => {
@@ -30,7 +31,8 @@ router.get('/', (req, res, next) =>{
 });
 
 // INSERE UMA CATEGORIA
-router.post('/', (req, res, next) =>{
+router.post('/', (req, res, next) => {
+    console.log()
     mysql.query(
         'INSERT INTO categories (id_categorie, name) VALUES (?,?)',
         [
@@ -38,7 +40,7 @@ router.post('/', (req, res, next) =>{
             req.body.name
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null });
+            if (error) {return res.status(500).send({ error : error, response: null });
             }
             res.status(201).send({
                 message: 'Categoria criada com sucesso! :)',
@@ -58,11 +60,12 @@ router.post('/', (req, res, next) =>{
 
 // RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
 router.get('/:id_categorie', (req, res, next) =>{
+    console.log()
     mysql.query(
         'SELECT * from categories where id_categorie = ?;',
         [req.params.id_categorie],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error });
+            if (error) {return res.status(500).send({ error : error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
@@ -87,6 +90,7 @@ router.get('/:id_categorie', (req, res, next) =>{
 
 // ALTERA UMA CATEGORIA
 router.patch('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         "UPDATE categories SET name = ? WHERE id_categorie = '?' ",
         [ 
@@ -94,7 +98,7 @@ router.patch('/', (req, res, next) =>{
             req.body.id_categorie
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error: error, response: null });
+            if (error) {return res.status(500).send( {error : error, response: null });
             }
             res.status(202).send({
                 message: 'Categoria alterada com sucesso :)',
@@ -114,10 +118,11 @@ router.patch('/', (req, res, next) =>{
 
 // EXCLUI UMA CATEGORIA
 router.delete('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         `DELETE from categories WHERE id_categorie = ?`,[req.body.id_categorie],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null })}
+            if (error) {return res.status(500).send({ error : error, response: null })}
             const response = {
                 message: 'Categoria removida com sucesso!',
                 request: {

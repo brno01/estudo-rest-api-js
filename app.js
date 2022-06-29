@@ -7,6 +7,7 @@ const routeProducts = require('./routes/products');
 const routeRequests = require('./routes/requests');
 const routeCategories = require('./routes/categories');
 const routeClients = require('./routes/clients');
+const routeUsers = require('./routes/users');
 const res = require('express/lib/response');
 
 app.use(morgan('dev'));
@@ -32,6 +33,7 @@ app.use('/products', routeProducts);
 app.use('/requests', routeRequests);
 app.use('/categories', routeCategories);
 app.use('/clients', routeClients);
+app.use('/users', routeUsers);
 
 // Quando não encontrar a route. Retorna:
 app.use((req, res, next) =>{

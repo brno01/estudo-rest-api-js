@@ -6,19 +6,19 @@ const mysql = require('../database/mysql').pool;
 
 // RETORNA TODOS OS PEDIDOS // ID, name, NB: Number, Numeração de Base, request(WIP)
 router.get('/', (req, res, next) => {
-    console.log(req.file);
+    console.log()
     mysql.query(`SELECT requests.id_request,
-                        requests.id_user,
+                        requests.id_client,
                         requests.quantity,
                         products.id_product,
                         products.name,
-                        products.valor,
-                        products.id_request
+                        products.price,
+                        products.image_product
                     FROM requests
                 INNER JOIN products
                         ON products.id_product = requests.id_product;`,
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error })}
+            if (error) {return res.status(500).send({ error : error })}
             const response = {
                 quantity: result.length,
                 requests: result.map(request => {
@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
                         product: {
                             id_product: request.id_product,
                             name: request.name,
-                            valor: request.valor
+                            price: request.price
                         },                        
                         request: {
                             tipo: 'GET',
@@ -45,6 +45,7 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         'INSERT INTO requests (id_user, id_product, quantity) VALUES (?,?,?)',
         [
@@ -53,7 +54,7 @@ router.post('/', (req, res, next) =>{
             req.body.quantity
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null });
+            if (error) {return res.status(500).send({ error : error, response: null });
             }
             return res.status(201).send({
                 message: 'Pedido criado com sucesso :)',
@@ -78,7 +79,7 @@ router.get('/:id_request', (req, res, next) =>{
         'SELECT * from requests where id_request = ?;',
         [req.params.id_request],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error });
+            if (error) {return res.status(500).send({ error : error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
@@ -104,6 +105,7 @@ router.get('/:id_request', (req, res, next) =>{
 
 // ALTERA UM PEDIDO
 router.patch('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         "UPDATE requests SET id_product = ?, quantity = ?, id_user = ? WHERE id_request = '?' ",
         [ 
@@ -111,7 +113,7 @@ router.patch('/', (req, res, next) =>{
             req.body.id_request
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error: error, response: null });
+            if (error) {return res.status(500).send( {error : error, response: null });
             }
             res.status(202).send({
                 message: 'Pedido alterado com sucesso :)',
@@ -131,10 +133,11 @@ router.patch('/', (req, res, next) =>{
 
 // EXCLUI UM PEDIDO
 router.delete('/', (req, res, next) =>{
+    console.log()
     mysql.query(
         `DELETE from requests where id_request = ?`,[req.body.id_request],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null })}
+            if (error) {return res.status(500).send({ error : error, response: null })}
             const response = {
                 message: 'Pedido removido com sucesso!',
                 request: {

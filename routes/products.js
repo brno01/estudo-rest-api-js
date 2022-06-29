@@ -30,20 +30,20 @@ const upload = multer({
 });
 
 
-// RETORNA TODOS OS productS // Valor: FLOAT
+// RETORNA TODOS OS PRODUTOS // Price|Valor = FLOAT
 router.get('/', (req, res, next) => {
-        console.log(req.file);
+        console.log();
         mysql.query(
             'SELECT * from products;',
             (error, result, fields) => {
-                if (error) {return res.status(500).send({ error: error })}
+                if (error) {return res.status(500).send({ error : error })}
                 const response = {
                     quantity: result.length,
                     products: result.map(prod => {
                         return {
                             id_product: prod.id_product,
                             name: prod.name,
-                            valor: prod.valor,
+                            price: prod.price,
                             id_categorie: prod.id_categorie,
                             image_product: prod.image_product,
                             request: {
@@ -61,25 +61,25 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM PRODUTO
 router.post('/', upload.single('product_image'), (req, res, next) => {
-        console.log(req.file);
+        console.log()
         mysql.query(
-            'INSERT INTO products (id_product, id_categorie, name, valor, image_product) VALUES (?,?,?,?,?)',
+            'INSERT INTO products (id_product, id_categorie, name, price, image_product) VALUES (?,?,?,?,?)',
             [
                 req.body.id_product, 
                 req.body.id_categorie, 
                 req.body.name, 
-                req.body.valor,
+                req.body.price,
                 req.file.path
             ],
             (error, result, fields) => {
-                if (error) {return res.status(500).send({ error: error, response: null });
+                if (error) {return res.status(500).send({ error : error, response: null });
                 }
                 res.status(201).send({
                     message: 'Produto Inserido com sucesso :)',
                     productCriado: {
                         id_product: req.body.id_product,
                         name: req.body.name,
-                        valor: req.body.valor,
+                        price: req.body.price,
                         id_categorie: req.body.id_categorie,
                         image_product: req.file.path,
                         request: {
@@ -99,7 +99,7 @@ router.get('/:id_product', (req, res, next) => {
         'SELECT * from products WHERE id_product = ?;',
         [req.params.id_product],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error: error });
+            if (error) {return res.status(500).send({ error : error });
         }
             if (result.length == 0) {
                 return res.status(404).send({
@@ -110,7 +110,7 @@ router.get('/:id_product', (req, res, next) => {
                 product: {
                     id_product: result[0].id_product,
                     name: result[0].name,
-                    valor: result[0].valor,
+                    price: result[0].price,
                     id_categorie: result[0].id_categorie,
                     image_product: result[0].image_product,
                     request: {
@@ -128,22 +128,22 @@ router.get('/:id_product', (req, res, next) => {
 // ALTERA UM PRODUTO
 router.patch('/', (req, res, next) => {
     mysql.query(
-        "UPDATE products SET name = ?, valor = ?, id_categorie = ? WHERE id_product = '?' ",
+        "UPDATE products SET name = ?, price = ?, id_categorie = ? WHERE id_product = '?' ",
         [
             req.body.name, 
-            req.body.valor, 
+            req.body.price, 
             req.body.id_categorie,
             req.body.id_product
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error: error, response: null });
+            if (error) {return res.status(500).send( {error : error, response: null });
             }
             res.status(202).send({
                 message: 'Produto alterado com sucesso :)',
                 productAtualizado: {
                     id_product: req.body.id_product,
                     name: req.body.name,
-                    valor: req.body.valor,
+                    price: req.body.price,
                     id_categorie: req.body.id_categorie,
                     request: {
                         tipo: 'GET',
@@ -157,11 +157,11 @@ router.patch('/', (req, res, next) => {
 });
   
 // EXCLUI UM PRODUTO
-router.delete('/', (req, res, next) =>{
+router.delete('/', (req, res, next) => {
     mysql.query(
         'DELETE from products WHERE id_product = ?',[req.body.id_product],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null })}
+            if (error) {return res.status(500).send({ error : error, response: null })}
             const response = {
                 message: 'Produto removido com sucesso!',
                 request: {

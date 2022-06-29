@@ -6,26 +6,25 @@ const { response } = require('express');
 
 router.post('/signup', (req, res, next) => {
     console.log(bcrypt)
-    req = (
-        (error, result, fields) => {
-            bcrypt.hash(req.body.password, 10, (errorBcrypt, hash) => {
-                if (errorBcrypt) {return res.status(500).send({ error : errorBcrypt });
+    mysql.query(`SELECT * FROM users WHERE email = ?`, [req.body.email], (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        if (result.length > 0) {
+            return res.status(400).send({ error: 'Já possui um usuário com este E-mail.' });
+        }
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).send(err);
             }
-            mysql.query(
-                `INSERT INTO users (email, password) VALUES (?,?)`, 
-                [
-                    req.body.email, 
-                    hash
-                ],
-                response = {
-                    message: 'Usuário criado com sucesso!',
-                    userCreated: {
-                        id_user: result.InsertID,
-                        email: req.body.email
-                    }
+            const query = `INSERT INTO users (email, password) VALUES (?,?)`;
+            const values = [req.body.email, hash];
+            mysql.query(query, values, (err, result) => {
+                if (err) {
+                    return res.status(500).send(err);
                 }
-            ) 
-            return res.status(201).send(response);
+                return res.status(201).send({ message: 'Usuário Criado com sucesso!' });
+            });
         });
     });
 })

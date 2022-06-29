@@ -6,7 +6,7 @@ const mysql = require('../database/mysql').pool;
 router.get('/', (req, res, next) => {
     console.log()
     mysql.query(
-        'SELECT * from clients;',
+        "SELECT * FROM clients;",
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error })}
             const response = {
@@ -142,7 +142,7 @@ router.patch('/', (req, res, next) => {
 router.delete('/', (req, res, next) =>{
     console.log()
     mysql.query(
-        `DELETE from client where id_client = ?`,[req.body.id_client],
+        "DELETE from client where id_client = ?",[req.body.id_client],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {

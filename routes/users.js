@@ -6,7 +6,7 @@ const { response } = require('express');
 
 router.post('/signup', (req, res, next) => {
     console.log(bcrypt)
-    mysql.query(`SELECT * FROM users WHERE email = ?`, [req.body.email], (err, result) => {
+    mysql.query("SELECT * FROM users WHERE email = (?)", [req.body.email], (err, result) => {
         if (err) {
             return res.status(500).send(err);
         }
@@ -17,7 +17,7 @@ router.post('/signup', (req, res, next) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            const query = `INSERT INTO users (email, password) VALUES (?,?)`;
+            const query = "INSERT INTO users (email, password) VALUES (?,?)";
             const values = [req.body.email, hash];
             mysql.query(query, values, (err, result) => {
                 if (err) {

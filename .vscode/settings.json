@@ -16,5 +16,6 @@
         }
     ],
     "explorer.compactFolders": true,
-    "explorer.openEditors.visible": 9
+    "explorer.openEditors.visible": 9,
+    "editor.fontFamily": "Cascadia Mono, 'Courier New', monospace"
 }

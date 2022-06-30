@@ -1,4 +1,4 @@
 node_modules/
 localhost.session.sql
-uploads/
-images/
+uploads/*
+images/*

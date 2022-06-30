@@ -11,8 +11,7 @@ exports.required = (req, res, next) => {
             message: 'Auth failed | Falha na autenticação'
         });
     }
-}
-
+};
 exports.open = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
@@ -22,4 +21,4 @@ exports.open = (req, res, next) => {
     } catch (error) {
        next();
     }
-}
+};

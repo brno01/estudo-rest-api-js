@@ -30,34 +30,23 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/signin', (req, res, next) => {
-    mysql.query("SELECT * FROM users WHERE email = (?)",
-        [req.body.email], (error, result) => {
-        if (error) {
-            return res.status(500).send(error);
+    mysql.query("SELECT * FROM users WHERE email = (?)", 
+    [req.body.email], (error, result) => {
+        if (result.length <1) {
+            return res.status(400).send({ error: 'Falha na autenticação! Tente novamente'})
         }
-        if (result.length == 0) {
-            return res.status(401).send({ error: 'Falha na autenticação' })
-        }
-        bcrypt.compare(req.body.password, result[0].password,
-             (error, result) => {
-            if (error) {return res.status(401).send({ message: 'Falha na autenticação'})
-        }
-            if (result) {
-                
-                const token = jwt.sign({ 
-                    id_user: result[0].id_user,
-                    email: req.body.email,
-                },
-                
-                secretOrKey = process.env.JWT_KEY, 
-                { expiresIn: "1h" }
-                );
-                return res.status(200).send({
-                    message: 'Usuário autenticado com sucesso!',
-                    token: token
-                });
+        const token = jwt.sign({email: result[0].email }, process.env.JWT_KEY, { expiresIn: '1h' });
+        if (error) {return res.status(500).send(error);}
+        bcrypt.compare(req.body.password, result[0].password, (error, result) => {
+            if (error) {
+                return res.status(500).send(error);
             }
-            return res.status(401).send({ error: 'Falha na autenticação' });
+            if (!result) {
+                return res.status(400).send({ error: 'Falha na autenticação! Tente novamente' });
+            }
+            return res.status(200).send({ 
+                message: 'Autenticado com sucesso!', 
+                token: token });
         });
     });
 })

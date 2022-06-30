@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
                         products.name,
                         products.price,
                         products.image_product
-                    FROM requests
+                   FROM requests
                 INNER JOIN products
                         ON products.id_product = requests.id_product;`,
         (error, result, fields) => {

@@ -38,7 +38,7 @@ router.post('/signin', (req, res, next) => {
         const token = jwt.sign({
             email: result[0].email}, 
             process.env.JWT_KEY,
-            {expiresIn: '2h'
+            {expiresIn: '1h'
         });
         if (error) {return res.status(500).send(error);}
         bcrypt.compare(req.body.password, result[0].password, (error, result) => {

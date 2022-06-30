@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
-
+const auth = require('./../middleware/auth');
 
 
 // RETORNA TODAS AS CATEGORIAS
-router.get('/', (req, res, next) => {
+router.get('/', auth.open, (req, res, next) => {
     mysql.query(
         'SELECT * FROM categories;',
         (error, result, fields) => {
@@ -36,7 +36,7 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UMA CATEGORIA
-router.post('/', (req, res, next) => {
+router.post('/', auth.required, (req, res, next) => {
     mysql.query(
         'INSERT INTO categories (id_categorie, name) VALUES (?,?)',
         [
@@ -63,7 +63,7 @@ router.post('/', (req, res, next) => {
 });
 
 // RETORNA OS DADOS DE UMA CATEGORIA ESPECÍFICA
-router.get('/:id_categorie', (req, res, next) => {
+router.get('/:id_categorie', auth.open, (req, res, next) => {
     mysql.query(
         'SELECT * FROM categories WHERE id_categorie = ?;',
         [req.params.id_categorie],
@@ -93,7 +93,7 @@ router.get('/:id_categorie', (req, res, next) => {
 });
 
 // ALTERA UMA CATEGORIA
-router.patch('/', (req, res, next) => {
+router.patch('/', auth.required, (req, res, next) => {
     mysql.query(
         "UPDATE categories SET name = ? WHERE id_categorie = '?' ",
         [ 
@@ -135,7 +135,7 @@ router.patch('/', (req, res, next) => {
 });
 
 // EXCLUI UMA CATEGORIA
-router.delete('/', (req, res, next) => {
+router.delete('/', auth.required, (req, res, next) => {
     mysql.query(
         `DELETE from categories WHERE id_categorie = ?`,[req.body.id_categorie],
         (error,result,fields) => {

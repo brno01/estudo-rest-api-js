@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
+const auth = require('./../middleware/auth');
 
 let date = new Date().toISOString().replace(/:/g, '-') + '-';
 
 // RETORNA TODOS OS PEDIDOS // ID, name, NB: Number, Numeração de Base, request(WIP)
-router.get('/', (req, res, next) => {
+router.get('/', auth.open, (req, res, next) => {
     mysql.query(`SELECT requests.id_request,
                         requests.id_client,
                         requests.quantity,
@@ -53,7 +54,7 @@ router.get('/', (req, res, next) => {
 });
 
 // INSERE UM PEDIDO
-router.post('/', (req, res, next) => {
+router.post('/', auth.required, (req, res, next) => {
     mysql.query(
         'INSERT INTO requests (id_client, id_product, quantity) VALUES (?,?,?)',
         [
@@ -81,7 +82,7 @@ router.post('/', (req, res, next) => {
 });
 
 // RETORNA OS DADOS DE UM PEDIDO
-router.get('/:id_request', (req, res, next) => {
+router.get('/:id_request', auth.open, (req, res, next) => {
     mysql.query(
         'SELECT * from requests where id_request = ?;',
         [req.params.id_request],
@@ -112,7 +113,7 @@ router.get('/:id_request', (req, res, next) => {
 });
 
 // ALTERA UM PEDIDO
-router.patch('/', (req, res, next) => {
+router.patch('/', auth.required, (req, res, next) => {
     mysql.query(
         "UPDATE requests SET id_product = ?, quantity = ?, id_client = ? WHERE id_request = '?' ",
         [ 
@@ -144,7 +145,7 @@ router.patch('/', (req, res, next) => {
 });
 
 // EXCLUI UM PEDIDO
-router.delete('/', (req, res, next) => {
+router.delete('/', auth.required, (req, res, next) => {
     mysql.query(
         `DELETE from requests where id_request = ?`,[req.body.id_request],
         (error,result,fields) => {

@@ -2,17 +2,19 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
 
-
+let date = new Date().toISOString().replace(/:/g, '-') + '-';
 
 // RETORNA TODOS OS PEDIDOS // ID, name, NB: Number, Numeração de Base, request(WIP)
 router.get('/', (req, res, next) => {
     mysql.query(`SELECT requests.id_request,
                         requests.id_client,
                         requests.quantity,
+                        requests.create_date,
                         products.id_product,
                         products.name,
                         products.price,
-                        products.image_product
+                        products.image_product,
+                        products.create_time
                    FROM requests
                 INNER JOIN products
                         ON products.id_product = requests.id_product;`,
@@ -28,11 +30,14 @@ router.get('/', (req, res, next) => {
                 requests: result.map(request => {
                     return {
                         id_request: request.id_request,
+                        id_client: request.id_client,
                         quantity: request.quantity,
+                        create_date: request.create_date,
                         product: {
                             id_product: request.id_product,
                             name: request.name,
-                            price: request.price
+                            price: request.price,
+                            create_time: request.create_time,
                         },                        
                         request: {
                             tipo: 'GET',
@@ -93,6 +98,7 @@ router.get('/:id_request', (req, res, next) => {
                     id_request: result[0].id_request,
                     id_product: result[0].id_product,
                     quantity: result[0].quantity,
+                    create_date: result[0].create_date,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os pedidos:',

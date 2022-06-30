@@ -2,7 +2,6 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
-const login = require('../middleware/auth');
 
 // RETORNA TODOS OS clienteS
 router.get('/', auth, (req, res, next) => {
@@ -23,6 +22,7 @@ router.get('/', auth, (req, res, next) => {
                         name: client.name,
                         email: client.email,
                         phone: client.phone,
+                        create_time: client.create_time,
                         request: {
                             type: 'GET',
                             description: 'Retorna os detalhes de um cliente específico:',
@@ -64,6 +64,7 @@ router.post('/', auth, (req, res, next) => {
                     gender: req.body.gender,
                     email: req.body.email,
                     phone: req.body.phone,
+                    create_time: result.create_time,
                     request: {
                         type: 'GET',
                         description: 'Retorna todos os clientes:',
@@ -98,6 +99,7 @@ router.get('/:id_client', auth, (req, res, next) => {
                     gender: result[0].gender,
                     email: result[0].email,
                     phone: result[0].phone,
+                    create_time: result[0].create_time,
                     request: {
                         type: 'GET',
                         description: 'Retorna todos os clientes:',

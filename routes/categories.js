@@ -21,6 +21,7 @@ router.get('/', (req, res, next) => {
                     return {
                         id_categorie: categorie.id_categorie,
                         name: categorie.name,
+                        create_time: categorie.create_time,
                         request: {
                             type: 'GET',
                             description: 'Retorna os detalhes de uma categoria específica:',
@@ -78,6 +79,7 @@ router.get('/:id_categorie', (req, res, next) => {
                 categorie: {
                     id_categorie: result[0].id_categorie,
                     name: result[0].name,
+                    create_time: result[0].create_time,
                     request: {
                         type: 'GET',
                         description: 'Retorna todas as categorias:',

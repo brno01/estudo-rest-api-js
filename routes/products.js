@@ -9,8 +9,8 @@ const storage = multer.diskStorage({
         callback(null, './uploads/');
     },
     filename: function(req, file, callback) {
-        let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        callback(null, data + file.originalname );
+        let date = new Date().toISOString().replace(/:/g, '-') + '-';
+        callback(null, date + file.originalname );
     }
 });
 
@@ -51,6 +51,7 @@ router.get('/', (req, res, next) => {;
                             price: prod.price,
                             id_categorie: prod.id_categorie,
                             image_product: prod.image_product,
+                            create_time: prod.create_time,
                             request: {
                                 tipo: 'GET',
                                 descricao: 'Retorna os detalhes de um product específico:',
@@ -117,6 +118,7 @@ router.get('/:id_product', (req, res, next) => {
                     price: result[0].price,
                     id_categorie: result[0].id_categorie,
                     image_product: result[0].image_product,
+                    create_time: result[0].create_time,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os products:',

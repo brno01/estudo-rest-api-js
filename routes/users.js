@@ -35,7 +35,11 @@ router.post('/signin', (req, res, next) => {
         if (result.length <1) {
             return res.status(400).send({ error: 'Falha na autenticação! Tente novamente'})
         }
-        const token = jwt.sign({email: result[0].email }, process.env.JWT_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({
+            email: result[0].email}, 
+            process.env.JWT_KEY,
+            {expiresIn: '2h'
+        });
         if (error) {return res.status(500).send(error);}
         bcrypt.compare(req.body.password, result[0].password, (error, result) => {
             if (error) {

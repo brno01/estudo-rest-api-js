@@ -1,9 +1,11 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
+const login = require('../middleware/auth');
 
-// RETORNA TODOS OS USUÁRIOS
-router.get('/', (req, res, next) => {
+// RETORNA TODOS OS clienteS
+router.get('/', auth, (req, res, next) => {
     mysql.query(
         "SELECT * FROM clients;",
         (error, result, fields) => {
@@ -23,7 +25,7 @@ router.get('/', (req, res, next) => {
                         phone: client.phone,
                         request: {
                             type: 'GET',
-                            description: 'Retorna os detalhes de um usuário específico:',
+                            description: 'Retorna os detalhes de um cliente específico:',
                             url: 'http://localhost:3000/clients/' + client.id_client
                         }
                     }
@@ -34,8 +36,8 @@ router.get('/', (req, res, next) => {
     )
 });
 
-// INSERE UM USUÁRIO
-router.post('/', (req, res, next) => {
+// INSERE UM cliente
+router.post('/', auth, (req, res, next) => {
     mysql.query(
         'INSERT INTO clients (id_client, name, login, password, birthdate, gender, email, phone) VALUES (?,?,?,?,?,?,?,?)',
         [
@@ -52,7 +54,7 @@ router.post('/', (req, res, next) => {
             if (error) {return res.status(500).send({ error : error, response: null });
             }
             res.status(201).send({
-                message: 'Usuário criado com sucesso! :)',
+                message: 'Cliente criado com sucesso! :)',
                 clientCreated: {
                     id_client: result.id_client,
                     name: req.body.name,
@@ -64,7 +66,7 @@ router.post('/', (req, res, next) => {
                     phone: req.body.phone,
                     request: {
                         type: 'GET',
-                        description: 'Retorna todos os usuários:',
+                        description: 'Retorna todos os clientes:',
                         url: 'http://localhost:3000/clients'
                     }
                 }
@@ -74,7 +76,7 @@ router.post('/', (req, res, next) => {
 });
 
 // RETORNA OS DADOS DE UM CLIENTE ESPECÍFICO
-router.get('/:id_client', (req, res, next) => {
+router.get('/:id_client', auth, (req, res, next) => {
     mysql.query(
         'SELECT * FROM clients WHERE id_client = ?;',
         [req.params.id_client],
@@ -98,7 +100,7 @@ router.get('/:id_client', (req, res, next) => {
                     phone: result[0].phone,
                     request: {
                         type: 'GET',
-                        description: 'Retorna todos os usuários:',
+                        description: 'Retorna todos os clientes:',
                         url: 'http://localhost:3000/clients'
                     }
                 }
@@ -109,7 +111,7 @@ router.get('/:id_client', (req, res, next) => {
 });
 
 // ALTERA UM CLIENTE
-router.patch('/', (req, res, next) => {
+router.patch('/', auth, (req, res, next) => {
     mysql.query(
     "UPDATE clients SET name = ?, login = ?, password = ?, birthdate =?, gender = ?, email = ?, phone = ?  WHERE id_client = '?' ",
     [
@@ -129,13 +131,13 @@ router.patch('/', (req, res, next) => {
                 })
             }
             res.status(202).send({
-                message: 'Usuário alterado com sucesso! :)',
+                message: 'Cliente alterado com sucesso! :)',
                 clientUpdated: {
                     id_client: req.body.id_client,
                     name: req.body.name,
                     request: {
                         type: 'GET',
-                        description: 'Retorna todos os dados deste usuário:',
+                        description: 'Retorna todos os dados deste cliente:',
                         url: 'http://localhost:3000/clients/' + req.body.id_client
                     }
                 }
@@ -144,17 +146,17 @@ router.patch('/', (req, res, next) => {
     )
 });
 
-// EXCLUI UM USUÁRIO
-router.delete('/', (req, res, next) => {
+// EXCLUI UM CLIENTE
+router.delete('/', auth, (req, res, next) => {
     mysql.query(
         "DELETE FROM client WHERE id_client = ?",[req.body.id_client],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {
-                message: 'Usuário removido com sucesso!',
+                message: 'Cliente removido com sucesso!',
                 request: {
                     type: 'POST',
-                    description: 'Insere um usuário:',
+                    description: 'Insere um cliente:',
                     url: 'http://localhost:3000/client',
                     body: {
                         name: 'String',

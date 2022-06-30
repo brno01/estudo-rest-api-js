@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../database/mysql').pool;
 const multer = require('multer');
+const auth = require('../middleware/auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -64,7 +65,7 @@ router.get('/', (req, res, next) => {;
 });
 
 // INSERE UM PRODUTO
-router.post('/', upload.single('image_product'), (req, res, next) => {
+router.post('/', upload.single('image_product'), auth, (req, res, next) => {
         mysql.query(
             'INSERT INTO products (id_product, id_categorie, name, price, image_product) VALUES (?,?,?,?,?)',
             [
@@ -129,7 +130,7 @@ router.get('/:id_product', (req, res, next) => {
 });
 
 // ALTERA UM PRODUTO
-router.patch('/', (req, res, next) => {
+router.patch('/', auth, (req, res, next) => {
     mysql.query(
         "UPDATE products SET name = ?, price = ?, id_categorie = ? WHERE id_product = '?' ",
         [
@@ -160,7 +161,7 @@ router.patch('/', (req, res, next) => {
 });
   
 // EXCLUI UM PRODUTO
-router.delete('/', (req, res, next) => {
+router.delete('/', auth, (req, res, next) => {
     mysql.query(
         'DELETE FROM products WHERE id_product = ?',[req.body.id_product],
         (error,result,fields) => {

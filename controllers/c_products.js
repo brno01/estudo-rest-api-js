@@ -18,7 +18,7 @@ exports.getProducts = (req, res, next) => {;
                         name: prod.name,
                         price: prod.price,
                         id_categorie: prod.id_categorie,
-                        image_product: prod.image_product,
+                        url: prod.url,
                         create_time: prod.create_time,
                         request: {
                             tipo: 'GET',
@@ -50,7 +50,7 @@ exports.getProductsbyID = (req, res, next) => {
                     name: result[0].name,
                     price: result[0].price,
                     id_categorie: result[0].id_categorie,
-                    image_product: result[0].image_product,
+                    url: result[0].url,
                     create_time: result[0].create_time,
                     request: {
                         tipo: 'GET',
@@ -65,13 +65,13 @@ exports.getProductsbyID = (req, res, next) => {
 };
 exports.postProduct = (req, res, next) => {
     mysql.query(
-        'INSERT INTO products (id_product, id_categorie, name, price, image_product) VALUES (?,?,?,?,?)',
+        'INSERT INTO products (id_product, id_categorie, name, price, url) VALUES (?,?,?,?,?)',
         [
             req.body.id_product, 
             req.body.id_categorie, 
             req.body.name, 
             req.body.price,
-            req.file.path
+            req.body.url
         ],
         (error, result, fields) => {
             if (error) {return res.status(500).send({ error : error, response: null });
@@ -83,7 +83,7 @@ exports.postProduct = (req, res, next) => {
                     name: req.body.name,
                     price: req.body.price,
                     id_categorie: req.body.id_categorie,
-                    image_product: req.file.path,
+                    url: req.body.url,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os produtos:',
@@ -96,11 +96,13 @@ exports.postProduct = (req, res, next) => {
 };
 exports.patchProduct = (req, res, next) => {
     mysql.query(
-        "UPDATE products SET name = ?, price = ?, id_categorie = ? WHERE id_product = '?' ",
+        "UPDATE products SET name = ?, price = ?, id_categorie = ?, create_time = ?, url = ? WHERE id_product = '?' ",
         [
             req.body.name, 
             req.body.price, 
             req.body.id_categorie,
+            req.body.create_time,
+            req.body.url,
             req.body.id_product
         ],
         (error, result, fields) => {
@@ -113,6 +115,8 @@ exports.patchProduct = (req, res, next) => {
                     name: req.body.name,
                     price: req.body.price,
                     id_categorie: req.body.id_categorie,
+                    create_time: req.body.create_time,
+                    url: req.body.url,
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os produtos:',

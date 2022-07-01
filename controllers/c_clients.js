@@ -102,13 +102,14 @@ exports.postClient = (req, res, next) => {
 };
 exports.patchClient = (req, res, next) => {
     mysql.query(
-    "UPDATE clients SET name = ?, email = ?, password = ?, birthdate =?, gender = ?, phone = ?  WHERE id_client = '?' ",
+    "UPDATE clients SET name = ?, email = ?, password = ?, birthdate = ?, gender = ?, create_time= ?, phone = ? WHERE id_client = '?' ",
     [
         req.body.name, 
         req.body.email,
         req.body.password,
         req.body.birthdate,
         req.body.gender,
+        req.body.create_time,
         req.body.phone,
         req.body.id_client
     ],
@@ -137,7 +138,7 @@ exports.patchClient = (req, res, next) => {
 };
 exports.deleteClient = (req, res, next) => {
     mysql.query(
-        "DELETE FROM client WHERE id_client = ?",[req.body.id_client],
+        "DELETE FROM clients WHERE id_client = ?",[req.body.id_client],
         (error,result,fields) => {
             if (error) {return res.status(500).send({ error: error, response: null })}
             const response = {

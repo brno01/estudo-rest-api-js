@@ -37,7 +37,7 @@ app.use('/users', routeUsers);
 
 // Quando não encontrar a route. Retorna:
 app.use((req, res, next) =>{
-    const error = new Error('Não encontrado :(');
+    const error = new Error('Rota não encontrada :(');
     error.status = 404;
     next(error);
 });

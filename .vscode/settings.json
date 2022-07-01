@@ -13,6 +13,20 @@
             "username": "root",
             "connectionTimeout": 1000,
             "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "cxmgkzhk95kfgbq4.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "JawsDB Maria",
+            "database": "uq5ens43vefj6udx",
+            "username": "n15v5qtt8k7xfz26",
+            "password": "d2xmygx8stfyd985",
+            "connectionTimeout": 1000
         }
     ],
     "explorer.compactFolders": true,

@@ -5,8 +5,7 @@ exports.getRequests = async (req, res, next) => {
         const result = await mysql.execute(`SELECT 
                                 requests.id_request, 
                                 requests.id_client,
-                                requests.quantity, 
-                                requests.total_price,
+                                requests.quantity,
                                 requests.create_time, 
                                 products.id_product,
                                 products.name, 

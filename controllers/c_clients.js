@@ -83,8 +83,8 @@ exports.patchClient = async (req, res, next) => {
                 name: req.body.name,
                 request: {
                     type: 'GET',
-                    description: 'Retorna todos os dados deste cliente:',
-                    url: process.env.URL_API + 'clients/' + client.id_client,
+                    description: 'Retorna todos os clientes:',
+                    url: process.env.URL_API + 'clients/',
                 }
             }
         }
@@ -100,7 +100,7 @@ exports.deleteClient = async (req, res, next) => {
     try {
         const result = await mysql.execute("DELETE FROM clients WHERE id_client = '?' ", [req.body.id_client]);
         const response = {
-            message: 'Cliente deletado com sucesso! :)',
+            message: 'Dados do cliente apagado com sucesso! :)',
                 clientDeleted: {
                 id_client: req.body.id_client,
                 request: {

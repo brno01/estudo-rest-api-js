@@ -60,7 +60,7 @@ exports.postCategorie = async (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Retorna os detalhes de uma categoria específica:',
-                    url: process.env.URL_API + 'categories/' + categorie.id_categorie,
+                    url: process.env.URL_API + 'categories/',
                 }
             }
         }
@@ -96,11 +96,17 @@ exports.patchCategorie = async (req, res, next) => {
 exports.deleteCategorie = async (req, res, next) => {
     try {
         const result = await mysql.execute ('DELETE FROM categories WHERE id_categorie = ?;', [req.params.id_categorie]);
-        const response = {id_categorie: req.params.id_categorie, name: req.body.name, create_time: result.create_time,
+        const response = {
+            message: 'Categoria removida com sucesso!', 
             request: {
-                type: 'POST',
-                description: 'Para inserir uma nova categoria:',
-                url: process.env.URL_API + 'categories/',
+                categorieDeleted: {
+                    id_categorie: req.body.id_categorie,
+                    request: {
+                        type: 'POST',
+                        description: 'Para inserir uma nova categoria:',
+                        url: process.env.URL_API + 'categories/',
+                    }
+                }
             }
         }
         return res.status(200).send(response);

@@ -23,7 +23,7 @@ exports.getProducts = async (req, res, next) => {
     } catch (error) {
         console.log(error);
         return res.status(500).send({
-            message: 'Erro ao listar os produtos!', error : error 
+            message: 'Erro ao listar os produtos!', error : error
         });
     }
 };
@@ -54,15 +54,15 @@ exports.getProductbyID = async (req, res, next) => {
 };
 exports.postProduct = async (req,res,next) => {
     try {
-        const query = 'INSERT INTO products (name, price, id_categorie, url) VALUES (?, ?, ?, ?)';
+        const query = 'INSERT INTO products (name, price, id_categorie, url) VALUES (?,?,?,?)';
         const result = mysql.execute(query, [req.body.name, req.body.price, req.body.id_categorie, req.body.url]);
         const response = {
             message: 'Produto criado com sucesso!',
-            productCreated: {id_product: result.insertId, name: req.body.name, price: req.body.price, id_categorie: req.body.id_categorie, url: req.body.url,
+            productCreated: {name: req.body.name, price: req.body.price, id_categorie: req.body.id_categorie, url: req.body.url,
                 request: {
                     tipo: 'POST',
-                    descricao: 'Cadastra um novo produto:',
-                    url: process.env.URL_API + 'products/'
+                    descricao: 'Retorna todos os produtos:',
+                    url: process.env.URL_API + 'products/',
                 }
             }
         }
@@ -84,7 +84,7 @@ exports.patchProduct = async (req, res, next) => {
                     request: {
                         tipo: 'GET',
                         descricao: 'Retorna todos os produtos:',
-                        url: process.env.URL_API + 'products/' + id_product
+                        url: process.env.URL_API + 'products/',
                     }
                 }
             }

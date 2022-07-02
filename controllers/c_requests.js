@@ -2,7 +2,20 @@ const mysql = require('../database/mysql');
 
 exports.getRequests = async (req, res, next) => {
     try {
-        const result = await mysql.execute(`SELECT requests.id_request, requests.id_client, requests.quantity, requests.total_price, requests.create_date, products.id_product, products.name, products.price, products.image_product, products.create_time FROM requests INNER JOIN products ON products.id_product = requests.id_product;`);
+        const result = await mysql.execute(`SELECT 
+                                requests.id_request, 
+                                requests.id_client,
+                                requests.quantity, 
+                                requests.total_price,
+                                requests.create_time, 
+                                products.id_product,
+                                products.name, 
+                                products.price, 
+                                products.url, 
+                                products.create_time 
+                FROM requests 
+                INNER JOIN products 
+                    ON products.id_product = requests.id_product;`);
         if (result.length == 0) {
             return res.status(404).send({
                 message: 'Não há pedidos neste momento. :('
@@ -53,11 +66,11 @@ exports.getRequestbyID = async (req, res, next) => {
 };
 exports.postRequest = async (req, res, next) => {
     try {
-        const query =  'INSERT INTO requests (id_client, id_product, quantity) VALUES (?,?,?)';
-        const result = mysql.execute(query, [req.body.id_client, req.body.id_product, req.body.quantity]);
+        const query =  'INSERT INTO requests (id_product, id_client, quantity) VALUES (?,?,?)';
+        const result = mysql.execute(query, [req.body.id_product, req.body.id_client, req.body.quantity]);
         const response = {
             message: 'Pedido criado com sucesso :)',
-                requestCriado: {id_product: req.body.id_product, quantity: req.body.quantity,
+                requestCriado: {id_product: req.body.id_product, quantity: req.body.quantity, id_client: req.body.id_client,
                     request: {
                         type: 'GET',
                         description: 'Retorna todos os pedidos:',
@@ -96,7 +109,7 @@ exports.patchRequest = async (req, res, next) => {
 };
 exports.deleteRequest = async (req, res, next) => {
     try {
-        const result = await mysql.execute("DELETE FROM requests WHERE id_request = ?", [req.params.id_request]);
+        const result = await mysql.execute("DELETE FROM requests WHERE id_request = '?'", [req.params.id_request]);
         const response = {
             message: 'Pedido excluído com sucesso :)',
             requestExcluido: {

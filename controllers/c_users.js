@@ -38,7 +38,7 @@ exports.postUserAuth = (req, res, next) => {
         const token = jwt.sign({
             email: result[0].email}, 
             process.env.JWT_KEY,
-            {expiresIn: '1h'
+            {expiresIn: '2h'
         });
         if (error) {return res.status(500).send({
             message: 'Falha na autenticação.',

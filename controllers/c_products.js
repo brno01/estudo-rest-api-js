@@ -1,40 +1,72 @@
-const mysql = require('../database/mysql').pool;
+const mysql = require('../database/mysql');
 
-exports.getProducts = (req, res, next) => {;
-    mysql.query(
-        'SELECT * FROM products;',
-        (error, result, fields) => {
-            if (error) {return res.status(500).send({
-                message: 'Não foi possível cadastrar o cliente. :(',
-                error : error 
-            })}
-            if (result.length == 0) {
-                return res.status(404).send({
-                    message: 'Não há produtos cadastrados! :('
-                })
-            }
-            const response = {
-                quantity: result.length,
-                products: result.map(prod => {
-                    return {
-                        id_product: prod.id_product,
-                        name: prod.name,
-                        price: prod.price,
-                        id_categorie: prod.id_categorie,
-                        url: prod.url,
-                        create_time: prod.create_time,
-                        request: {
-                            tipo: 'GET',
-                            descricao: 'Retorna os detalhes de um product específico:',
-                            url: 'http://localhost:3000/products/' + prod.id_product
-                        }
+exports.getProducts = async (req, res, next) => {
+    try {
+        const result = await mysql.execute('SELECT * FROM products;')
+        const response = {
+            quantity: result.length,
+            products: result.map(prod => {
+                return {
+                    id_product: prod.id_product,
+                    name: prod.name,
+                    price: prod.price,
+                    id_categorie: prod.id_categorie,
+                    url: prod.url,
+                    create_time: prod.create_time,
+                    request: {
+                        tipo: 'GET',
+                        descricao: 'Retorna os detalhes de um product específico:',
+                        url: 'http://localhost:3000/products/' + prod.id_product
                     }
-                })
-            }
-        return res.status(200).send(response);
+                }
+            })
         }
-    )
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send({error: error});
+    }
 };
+
+//;(//    }).catch((error) => {
+//        console.log(error);
+//    }
+//);};
+//exports.getProducts = (req, res, next) => {;
+//    mysql.query(
+//        'SELECT * FROM products;',
+//        (error, result, fields) => {
+//            if (error) {return res.status(500).send({
+//                message: 'Não foi possível cadastrar o cliente. :(',
+//                error : error 
+//            })}
+//            if (result.length == 0) {
+//                return res.status(404).send({
+//                    message: 'Não há produtos cadastrados! :('
+//                })
+//            }
+//            const response = {
+//                quantity: result.length,
+//                products: result.map(prod => {
+//                    return {
+//                        id_product: prod.id_product,
+//                        name: prod.name,
+//                        price: prod.price,
+//                        id_categorie: prod.id_categorie,
+//                        url: prod.url,
+//                        create_time: prod.create_time,
+//                        request: {
+//                            tipo: 'GET',
+//                            descricao: 'Retorna os detalhes de um product específico:',
+//                            url: 'http://localhost:3000/products/' + prod.id_product
+//                        }
+//                    }
+//                })
+//            }
+//        return res.status(200).send(response);
+//        }
+//    )
+//};
+
 exports.getProductsbyID = (req, res, next) => {
     mysql.query(
         'SELECT * FROM products WHERE id_product = ?;',

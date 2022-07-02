@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "b9638e30-d100-42ca-858b-4d1fcedadcb8",
-		"name": "REST 'NAJA'",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"name": "REST 'NAJA' (WIP)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21356995"
 	},
 	"item": [
@@ -16,14 +16,24 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"yuri.mancini@gmail.com\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+							"raw": "{\r\n    \"email\": \"email.teste@gmail.com\",\r\n    \"password\": \"senha.teste12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:3000/users/signup"
+						"url": {
+							"raw": "localhost:3000/users/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"signup"
+							]
+						}
 					},
 					"response": []
 				},
@@ -41,7 +51,17 @@
 								}
 							}
 						},
-						"url": "localhost:3000/users/signup"
+						"url": {
+							"raw": "localhost:3000/users/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"signup"
+							]
+						}
 					},
 					"response": []
 				},
@@ -50,9 +70,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTEzMzAsImV4cCI6MTY1NjU1NDkzMH0.DZZS14bdUi1FM12lLGg3lfurQLvALWOXXzLCX-nKhhA"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -64,14 +88,24 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"brunohashtagfox@gmail.com\",\r\n    \"password\": \"bruno12345\"\r\n}",
+							"raw": "{\r\n    \"email\": \"email.teste@gmail.com\",\r\n    \"password\": \"senha.teste12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:3000/users/signin"
+						"url": {
+							"raw": "localhost:3000/users/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"signin"
+							]
+						}
 					},
 					"response": []
 				}
@@ -88,9 +122,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLnRlc3RlQGdtYWlsLmNvbSIsImlhdCI6MTY1NjYzNDUyNSwiZXhwIjoxNjU2NjM4MTI1fQ.C3JAaJZHWG6hfJROqn6CR10P1hzb96vrNa3Cpl9iMIo",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -104,7 +142,16 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "localhost:3000/clients"
+						"url": {
+							"raw": "localhost:3000/clients",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"clients"
+							]
+						}
 					},
 					"response": []
 				},
@@ -116,9 +163,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLnRlc3RlQGdtYWlsLmNvbSIsImlhdCI6MTY1NjYzNDUyNSwiZXhwIjoxNjU2NjM4MTI1fQ.C3JAaJZHWG6hfJROqn6CR10P1hzb96vrNa3Cpl9iMIo",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -139,7 +190,17 @@
 								}
 							]
 						},
-						"url": "localhost:3000/clients/2"
+						"url": {
+							"raw": "localhost:3000/clients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"clients",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -148,9 +209,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLnRlc3RlQGdtYWlsLmNvbSIsImlhdCI6MTY1NjYzMzcxMCwiZXhwIjoxNjU2NjM3MzEwfQ.qlpjG6agKBxssUpoOrbFZ6hMpcE8RxBtM50r-BpYrnA",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -162,9 +227,18 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id_client\": \"{{$randomInt}}\",\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"gender\": \"M\",\r\n    \"birthdate\": \"{{$randomDatePast}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}"
+							"raw": "{ \r\n    \"id_client\": \"\",\r\n    \"name\": \"Bruno Santos de Oliveira\",\r\n    \"email\": \"bruno.santos@gmail.com\",\r\n    \"password\": \"@brunosantos12345\",\r\n    \"gender\": \"M\",\r\n    \"birthdate\": \"2001-03-21\",\r\n    \"phone\": \"5531980145601\"\r\n}"
 						},
-						"url": "localhost:3000/clients"
+						"url": {
+							"raw": "localhost:3000/clients",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"clients"
+							]
+						}
 					},
 					"response": []
 				},
@@ -173,28 +247,41 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLnRlc3RlQGdtYWlsLmNvbSIsImlhdCI6MTY1NjYzNDUyNSwiZXhwIjoxNjU2NjM4MTI1fQ.C3JAaJZHWG6hfJROqn6CR10P1hzb96vrNa3Cpl9iMIo",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [
 							{
-								"key": "",
-								"value": "",
+								"key": "Content-Type",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"id_user\": 1,\r\n\"name\":\"Bruno Oliveira\",\r\n\"login\":\"@dorminhoco\",\r\n\"password\":12345,\r\n\"gender\":\"M\",\r\n\"birthdate\":\"2001-03-21\",\r\n\"phone\":\"(31) 98014-5601\"\r\n}",
+							"raw": "{ \r\n    \"id_client\": 1,\r\n    \"name\": \"Bruno Santos de Oliveira\",\r\n    \"email\": \"bruno.santos@gmail.com\",\r\n    \"password\": \"@brunosantos12345\",\r\n    \"birthdate\": \"2001-03-21\",\r\n    \"gender\": \"M\",\r\n    \"phone\": \"5531980145601\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:3000/clients"
+						"url": {
+							"raw": "localhost:3000/clients",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"clients"
+							]
+						}
 					},
 					"response": []
 				},
@@ -203,9 +290,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
@@ -218,7 +309,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/clients"
+						"url": {
+							"raw": "localhost:3000/clients",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"clients"
+							]
+						}
 					},
 					"response": []
 				}
@@ -235,9 +335,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": ""
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -282,7 +386,17 @@
 								"type": "text"
 							}
 						],
-						"url": "localhost:3000/products/1"
+						"url": {
+							"raw": "localhost:3000/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -291,9 +405,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -324,7 +442,16 @@
 								}
 							]
 						},
-						"url": "localhost:3000/products"
+						"url": {
+							"raw": "localhost:3000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						}
 					},
 					"response": []
 				},
@@ -333,9 +460,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [],
@@ -348,7 +479,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/products"
+						"url": {
+							"raw": "localhost:3000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						}
 					},
 					"response": []
 				},
@@ -357,9 +497,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
@@ -372,7 +516,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/products"
+						"url": {
+							"raw": "localhost:3000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						}
 					},
 					"response": []
 				}
@@ -392,7 +545,16 @@
 								"type": "text"
 							}
 						],
-						"url": "localhost:3000/requests"
+						"url": {
+							"raw": "localhost:3000/requests",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"requests"
+							]
+						}
 					},
 					"response": []
 				},
@@ -407,7 +569,17 @@
 								"type": "text"
 							}
 						],
-						"url": "localhost:3000/requests/1"
+						"url": {
+							"raw": "localhost:3000/requests/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"requests",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -416,9 +588,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": ""
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [
@@ -437,7 +613,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/requests"
+						"url": {
+							"raw": "localhost:3000/requests",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"requests"
+							]
+						}
 					},
 					"response": []
 				},
@@ -455,7 +640,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/requests"
+						"url": {
+							"raw": "localhost:3000/requests",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"requests"
+							]
+						}
 					},
 					"response": []
 				}
@@ -475,7 +669,16 @@
 								"type": "text"
 							}
 						],
-						"url": "localhost:3000/categories"
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
 					},
 					"response": []
 				},
@@ -490,7 +693,17 @@
 								"type": "text"
 							}
 						],
-						"url": "localhost:3000/categories/1"
+						"url": {
+							"raw": "localhost:3000/categories/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -499,9 +712,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": ""
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -514,7 +731,16 @@
 								}
 							}
 						},
-						"url": "localhost:3000/categories"
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
 					},
 					"response": []
 				},
@@ -523,9 +749,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": ""
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [
@@ -539,7 +769,16 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"id_categorie\": 2,\r\n    \"name\": \"VOLÁTEIS\"\r\n}"
 						},
-						"url": "localhost:3000/categories"
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
 					},
 					"response": []
 				},
@@ -548,9 +787,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": ""
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [
@@ -564,7 +807,16 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"id_categorie\": 1\r\n}"
 						},
-						"url": "localhost:3000/categories"
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
 					},
 					"response": []
 				}

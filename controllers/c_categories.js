@@ -4,10 +4,13 @@ exports.getCategories = (req, res, next) => {
     mysql.query(
         'SELECT * FROM categories;',
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error })}
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao listar as categorias!',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não há categorias cadastradas :('
+                    message: 'Não há categorias cadastradas. :('
                 })
             }
             const response = {
@@ -34,8 +37,10 @@ exports.getCategoriesbyID = (req, res, next) => {
         'SELECT * FROM categories WHERE id_categorie = ?;',
         [req.params.id_categorie],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error });
-        }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao listar essa categoria. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não foi encontrado uma categoria com esse ID :('
@@ -65,8 +70,10 @@ exports.postCategorie = (req, res, next) => {
             req.body.name
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error, response: null });
-            }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao inserir a categoria. :(',
+                error : error 
+            })}
             res.status(201).send({
                 message: 'Categoria criada com sucesso! :)',
                 categorieCreated: {
@@ -90,8 +97,10 @@ exports.patchCategorie = (req, res, next) => {
             req.body.id_categorie
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error });
-        }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao atualizar a categoria. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não foi encontrado uma categoria com esse ID :('
@@ -126,7 +135,10 @@ exports.deleteCategorie =  (req, res, next) => {
     mysql.query(
         `DELETE from categories WHERE id_categorie = ?`,[req.body.id_categorie],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error : error, response: null })}
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao deletar a categoria. :(',
+                error : error 
+            })}
             const response = {
                 message: 'Categoria removida com sucesso!',
                 request: {

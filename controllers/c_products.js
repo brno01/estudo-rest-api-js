@@ -4,7 +4,10 @@ exports.getProducts = (req, res, next) => {;
     mysql.query(
         'SELECT * FROM products;',
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error })}
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível cadastrar o cliente. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não há produtos cadastrados! :('

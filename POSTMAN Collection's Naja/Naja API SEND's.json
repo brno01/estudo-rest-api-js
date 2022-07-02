@@ -226,7 +226,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \r\n    \"id_client\": \"\",\r\n    \"name\": \"Bruno Santos de Oliveira\",\r\n    \"email\": \"bruno.santos@gmail.com\",\r\n    \"password\": \"@brunosantos12345\",\r\n    \"gender\": \"M\",\r\n    \"birthdate\": \"2001-03-21\",\r\n    \"phone\": \"5531980145601\"\r\n}"
+							"raw": "{ \r\n    \"id_client\": \"0\",\r\n    \"name\": \"Bruno Santos de Oliveira\",\r\n    \"email\": \"bruno.santos@gmail.com\",\r\n    \"password\": \"@brunosantos12345\",\r\n    \"birthdate\": \"2001-03-21\",\r\n    \"gender\": \"M\",\r\n    \"phone\": \"5531980145601\"\r\n}"
 						},
 						"url": {
 							"raw": "https://rest-api-brn.herokuapp.com/clients",
@@ -417,7 +417,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJydW5vaGFzaHRhZ2ZveEBnbWFpbC5jb20iLCJpYXQiOjE2NTY1NTM1ODUsImV4cCI6MTY1NjU2MDc4NX0.qVa8eQTnq__ZrXMQARee6Oat0ZYKbzFQPjE6f1I1A80",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsLnRlc3RlQGdtYWlsLmNvbSIsImlhdCI6MTY1NjY4Nzc4NCwiZXhwIjoxNjU2NjkxMzg0fQ.nThb7Ozz7gcJGG_Lsj_hay1f1fVwAx8JgRcFqk2kshs",
 									"type": "string"
 								}
 							]
@@ -432,24 +432,8 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "ACETILENO",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "359.99",
-									"type": "text"
-								},
-								{
-									"key": "image_product",
-									"type": "file",
-									"src": []
-								}
-							]
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"ACETILENO\",\r\n\"price\": 359.99,\r\n\"id_categorie\": 1,\r\n\"url\":\"https://www.equigases.com.co/images/acetileno1.jpg\"\r\n}"
 						},
 						"url": {
 							"raw": "https://rest-api-brn.herokuapp.com/products",

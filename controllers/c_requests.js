@@ -14,7 +14,10 @@ exports.getRequests = (req, res, next) => {
                 INNER JOIN products
                         ON products.id_product = requests.id_product;`,
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error })}
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível visualizar os pedidos. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não há pedidos feitos :('
@@ -51,8 +54,10 @@ exports.getRequestsbyID = (req, res, next) => {
         'SELECT * from requests where id_request = ?;',
         [req.params.id_request],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error });
-        }
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível visualizar este pedido. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não foi encontrado o pedido com esse ID'
@@ -84,8 +89,10 @@ exports.postRequests = (req, res, next) => {
             req.body.quantity
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error, response: null });
-            }
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível realizar este pedido. :(',
+                error : error 
+            })}
             return res.status(201).send({
                 message: 'Pedido criado com sucesso :)',
                 requestCriado: {
@@ -109,8 +116,10 @@ exports.patchRequests = (req, res, next) => {
             req.body.id_request
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error : error, response: null });
-            }
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível atualizar o pedido. :(',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
                     message: 'Não foi encontrado um pedido com esse ID :('
@@ -135,7 +144,10 @@ exports.deleteRequests = (req, res, next) => {
     mysql.query(
         `DELETE from requests where id_request = ?`,[req.body.id_request],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error : error, response: null })}
+            if (error) {return res.status(500).send({
+                message: 'Não foi possível remover este pedido. :(',
+                error : error 
+            })}
             const response = {
                 message: 'Pedido removido com sucesso!',
                 request: {

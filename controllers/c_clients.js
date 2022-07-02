@@ -4,10 +4,13 @@ exports.getClients = (req, res, next) => {
     mysql.query(
         "SELECT * FROM clients;",
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error })}
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao listar todos os clientes!',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não há clientes cadastrados :('
+                    message: 'Não há clientes cadastrados! :('
                 })
             }
             const response = {
@@ -36,11 +39,13 @@ exports.getClientsbyID = (req, res, next) => {
         'SELECT * FROM clients WHERE id_client = ?;',
         [req.params.id_client],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error });
-        }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao listar o cliente específico.',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não foi encontrado um cliente com esse ID :('
+                    message: 'Não foi encontrado um cliente com esse ID. :('
                 })
             }
             const response = {
@@ -77,8 +82,10 @@ exports.postClient = (req, res, next) => {
             req.body.phone
         ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send({ error : error, response: null });
-            }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao cadastrar o cliente, tente novamente!',
+                error : error 
+            })}
             res.status(201).send({
                 message: 'Cliente criado com sucesso! :)',
                 clientCreated: {
@@ -114,11 +121,13 @@ exports.patchClient = (req, res, next) => {
         req.body.id_client
     ],
         (error, result, fields) => {
-            if (error) {return res.status(500).send( {error : error, response: null });
-            }
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao alterar os dados deste cliente.',
+                error : error 
+            })}
             if (result.length == 0) {
                 return res.status(404).send({
-                    message: 'Não foi encontrado um cliente com esse ID :('
+                    message: 'Não foi encontrado um cliente com esse ID. :('
                 })
             }
             res.status(202).send({
@@ -140,8 +149,10 @@ exports.deleteClient = (req, res, next) => {
     mysql.query(
         "DELETE FROM clients WHERE id_client = ?",[req.body.id_client],
         (error,result,fields) => {
-            if (error) {return res.status(500).send({ error: error, response: null })}
-            const response = {
+            if (error) {return res.status(500).send({ 
+                message: 'Erro ao deletar este cliente.',
+                error : error 
+            })}            const response = {
                 message: 'Cliente removido com sucesso!',
                 request: {
                     type: 'POST',

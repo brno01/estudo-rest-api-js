@@ -2,3 +2,5 @@ node_modules/
 localhost.session.sql
 uploads/*
 images/*
+database/*
+nodemon.json

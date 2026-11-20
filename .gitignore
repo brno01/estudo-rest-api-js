@@ -3,3 +3,5 @@ localhost.session.sql
 uploads/*
 images/*
 nodemon.json
+# Editor settings can hold database connections; keep them out of the repository.
+.vscode/

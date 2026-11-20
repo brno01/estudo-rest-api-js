@@ -1,0 +1,6 @@
+# Postman collections from 2022. The JWTs in them expired in June and July 2022
+# and the API they were issued by no longer exists.
+Collection's Naja/
+# Seed data for a database that no longer exists. It holds bcrypt hashes of the
+# seed users; they are flagged on purpose in the pull request that added this file.
+model/DATABASE.sql

@@ -1,0 +1,22 @@
+name: security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "53 6 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  security:
+    permissions:
+      contents: read
+      issues: write
+    uses: brno01/.github/.github/workflows/security.yml@v1

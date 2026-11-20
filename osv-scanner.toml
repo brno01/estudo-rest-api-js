@@ -1,0 +1,5 @@
+# minimatch comes only through nodemon, a development tool that is never deployed.
+# The fixed version needs a nodemon release that does not exist yet; revisit when it does.
+[[IgnoredVulns]]
+id = "GHSA-g3hv-75wg-m249"
+reason = "Development-only dependency of nodemon; not part of the application."
